@@ -13,6 +13,7 @@ builder.Services.AddScoped<backend.Repositories.Interfaces.IDoctorRepository, ba
 
 // Register services
 builder.Services.AddScoped<backend.Services.Interfaces.IDoctorService, backend.Services.DoctorService>();
+builder.Services.AddScoped<backend.Services.ISubscriptionPlanService, backend.Services.SubscriptionPlanService>();
 
 builder.Services.AddControllers();
 
@@ -28,7 +29,15 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy => policy
-            .WithOrigins("http://localhost:4200", "http://localhost:4201", "http://localhost:59038", "http://localhost:59593")
+            .SetIsOriginAllowed(origin =>
+            {
+                // Allow localhost on any port
+                if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                {
+                    return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                }
+                return false;
+            })
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials());

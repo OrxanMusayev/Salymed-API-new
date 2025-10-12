@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251011225156_AddSubscriptionStructure")]
+    partial class AddSubscriptionStructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -887,7 +890,7 @@ namespace backend.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Currency = "USD",
+                            Currency = "AZN",
                             Description = "Tək həkimli kliniklər üçün",
                             DisplayOrder = 1,
                             IsActive = true,
@@ -900,7 +903,7 @@ namespace backend.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Currency = "USD",
+                            Currency = "AZN",
                             Description = "3 həkimə qədər olan kliniklər üçün",
                             DisplayOrder = 2,
                             IsActive = true,
@@ -913,7 +916,7 @@ namespace backend.Migrations
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Currency = "USD",
+                            Currency = "AZN",
                             Description = "10 həkimə qədər olan kliniklər üçün",
                             DisplayOrder = 3,
                             IsActive = true,
