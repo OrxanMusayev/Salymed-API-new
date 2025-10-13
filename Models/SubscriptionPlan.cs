@@ -24,6 +24,12 @@ namespace backend.Models
         public string Currency { get; set; } = "USD";
 
         /// <summary>
+        /// Paddle Price ID (Paddle-də yaradılmış məhsul qiyməti)
+        /// </summary>
+        [StringLength(100)]
+        public string? PaddlePriceId { get; set; }
+
+        /// <summary>
         /// Ödəniş dövrü (Həftəlik, Aylıq, İllik)
         /// </summary>
         [Required]

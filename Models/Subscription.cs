@@ -63,6 +63,18 @@ namespace backend.Models
         public string? TransactionId { get; set; }
 
         /// <summary>
+        /// Paddle Transaction ID
+        /// </summary>
+        [StringLength(255)]
+        public string? PaddleTransactionId { get; set; }
+
+        /// <summary>
+        /// Paddle Subscription ID (təkrar ödəmələr üçün)
+        /// </summary>
+        [StringLength(255)]
+        public string? PaddleSubscriptionId { get; set; }
+
+        /// <summary>
         /// Sınaq müddəti aktivdir
         /// </summary>
         public bool IsTrialPeriod { get; set; } = false;

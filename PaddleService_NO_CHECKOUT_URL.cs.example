@@ -1,0 +1,29 @@
+// GEÇICI ÇÖZÜM: Domain onayı beklerken kullanabilirsiniz
+// Bu dosya sadece referans içindir, PaddleService.cs'i manuel olarak düzenleyin
+
+// CreateCheckoutSessionAsync metodunda checkoutData değişkenini şöyle değiştirin:
+
+var checkoutData = new
+{
+    items = new[]
+    {
+        new
+        {
+            price_id = request.PaddlePriceId,
+            quantity = 1
+        }
+    },
+    customer_email = request.CustomerEmail,
+    customer_ip_address = "0.0.0.0",
+    custom_data = new
+    {
+        clinic_id = request.ClinicId,
+        plan_id = request.PlanId,
+        user_id = request.UserId
+    }
+    // checkout bölümünü tamamen kaldırın (geçici çözüm)
+    // NOT: Bu durumda Paddle otomatik success URL kullanacak
+};
+
+// VEYA sadece boş bir checkout objesi:
+// checkout = new { }

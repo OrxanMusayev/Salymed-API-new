@@ -30,6 +30,11 @@ namespace backend.Models
         /// <summary>
         /// Ödəniş gözlənilir
         /// </summary>
-        PendingPayment = 6
+        PendingPayment = 6,
+
+        /// <summary>
+        /// Ödəniş uğursuz oldu
+        /// </summary>
+        PaymentFailed = 7
     }
 }

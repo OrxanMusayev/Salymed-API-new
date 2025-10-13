@@ -15,7 +15,19 @@ builder.Services.AddScoped<backend.Repositories.Interfaces.IDoctorRepository, ba
 builder.Services.AddScoped<backend.Services.Interfaces.IDoctorService, backend.Services.DoctorService>();
 builder.Services.AddScoped<backend.Services.ISubscriptionPlanService, backend.Services.SubscriptionPlanService>();
 
-builder.Services.AddControllers();
+// Configure Paddle settings
+builder.Services.Configure<backend.Services.PaddleSettings>(
+    builder.Configuration.GetSection("Paddle"));
+
+// Register Paddle service with HttpClient
+builder.Services.AddHttpClient<backend.Services.IPaddleService, backend.Services.PaddleService>();
+
+// Configure JSON serialization to use camelCase
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
 
 // Configure form options for file uploads
 builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
@@ -24,17 +36,31 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(optio
 });
 builder.Services.AddOpenApi();
 
-// Add CORS
+// Add CORS - Updated to support ngrok and Paddle webhooks
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy => policy
             .SetIsOriginAllowed(origin =>
             {
+                // Allow requests without origin (e.g., Paddle webhooks, Postman, curl)
+                if (string.IsNullOrEmpty(origin))
+                    return true;
+
                 // Allow localhost on any port
                 if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
                 {
-                    return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                    // Allow localhost and 127.0.0.1
+                    if (uri.Host == "localhost" || uri.Host == "127.0.0.1")
+                        return true;
+
+                    // Allow ngrok domains
+                    if (uri.Host.EndsWith(".ngrok-free.dev") || uri.Host.EndsWith(".ngrok.io"))
+                        return true;
+
+                    // Allow Paddle domains
+                    if (uri.Host.EndsWith(".paddle.com"))
+                        return true;
                 }
                 return false;
             })

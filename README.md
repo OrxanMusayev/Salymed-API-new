@@ -54,3 +54,46 @@ SQL Server kullanılmaktadır. Connection string `appsettings.json` dosyasında 
   }
 }
 ```
+## 💳 Paddle Payment Integration
+
+Salymed projesi Paddle recurring subscription entegrasyonu kullanmaktadır.
+
+### 🆘 Domain Approval Hatası Aldınız mı?
+
+Eğer şu hatayı alıyorsanız:
+```
+transaction_checkout_url_domain_is_not_approved
+```
+
+**Hızlı Çözüm:** `README_DOMAIN_ERROR_FIX.md` dosyasına bakın.
+
+### 📚 Paddle Dokümantasyonu
+
+- **`README_DOMAIN_ERROR_FIX.md`** - Domain onay hatası çözümü (başlangıç için)
+- **`PADDLE_SETUP_GUIDE.md`** - Detaylı Paddle kurulum rehberi
+- **`PADDLE_CHANGES_SUMMARY.md`** - Yapılan değişikliklerin özeti
+- **`PADDLE_API_TEST.md`** - API test ve debug rehberi
+- **`PADDLE_DOMAIN_APPROVAL_FIX.md`** - Domain onaylama detayları
+
+### ⚡ Hızlı Başlangıç
+
+1. Paddle Dashboard'da product ve price oluşturun
+2. Price ID'leri `update_paddle_price_ids.sql` ile veritabanına ekleyin
+3. `appsettings.json`'da Paddle API key'inizi ekleyin
+4. Domain onay hatası için `README_DOMAIN_ERROR_FIX.md`'e bakın
+5. Backend'i başlatın: `dotnet run`
+
+### 🔑 Paddle Ayarları
+
+`appsettings.json`:
+```json
+{
+  "Paddle": {
+    "ApiKey": "pdl_sdbx_apikey_xxx...",
+    "Environment": "sandbox"
+  },
+  "Frontend": {
+    "Url": "http://localhost:4200"
+  }
+}
+```
