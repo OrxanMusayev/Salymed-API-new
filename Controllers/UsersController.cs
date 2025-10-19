@@ -21,7 +21,7 @@ namespace backend.Controllers
 
         // GET: api/users/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserProfileResponseDto>> GetUserProfile(int id)
+        public async Task<ActionResult<UserProfileResponseDto>> GetUserProfile(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -49,7 +49,7 @@ namespace backend.Controllers
 
         // PUT: api/users/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserProfileResponseDto>> UpdateUserProfile(int id, UpdateUserProfileDto updateDto)
+        public async Task<ActionResult<UserProfileResponseDto>> UpdateUserProfile(Guid id, UpdateUserProfileDto updateDto)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -110,7 +110,7 @@ namespace backend.Controllers
 
         // POST: api/users/{id}/change-password
         [HttpPost("{id}/change-password")]
-        public async Task<ActionResult> ChangePassword(int id, ChangePasswordDto changePasswordDto)
+        public async Task<ActionResult> ChangePassword(Guid id, ChangePasswordDto changePasswordDto)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -140,7 +140,7 @@ namespace backend.Controllers
             return Ok(new { message = "Şifrə uğurla dəyişdirildi" });
         }
 
-        private async Task<bool> UserExists(int id)
+        private async Task<bool> UserExists(Guid id)
         {
             return await _context.Users.AnyAsync(e => e.Id == id);
         }

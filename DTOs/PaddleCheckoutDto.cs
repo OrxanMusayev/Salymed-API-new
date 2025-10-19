@@ -4,8 +4,8 @@ namespace backend.DTOs
     {
         public int PlanId { get; set; }
         public string CustomerEmail { get; set; } = string.Empty;
-        public int? ClinicId { get; set; }
-        public int? UserId { get; set; }
+        public Guid? ClinicId { get; set; }
+        public Guid? UserId { get; set; }
     }
 
     public class CreateCheckoutResponseDto
@@ -19,7 +19,7 @@ namespace backend.DTOs
     public class PaymentSuccessDto
     {
         public string TransactionId { get; set; } = string.Empty;
-        public int ClinicId { get; set; }
+        public Guid ClinicId { get; set; }
         public int PlanId { get; set; }
     }
 }

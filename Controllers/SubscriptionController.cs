@@ -26,7 +26,7 @@ namespace backend.Controllers
         /// </summary>
         [HttpGet("status")]
         [ProducesResponseType(typeof(SubscriptionStatusDto), StatusCodes.Status200OK)]
-        public async Task<ActionResult<SubscriptionStatusDto>> GetStatus([FromQuery] int? clinicId)
+        public async Task<ActionResult<SubscriptionStatusDto>> GetStatus([FromQuery] Guid? clinicId)
         {
             _logger.LogInformation("Fetching subscription status for clinicId: {ClinicId}", clinicId);
 
@@ -106,7 +106,7 @@ namespace backend.Controllers
         [HttpPost("activate/{clinicId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ActivatePendingSubscription(int clinicId)
+        public async Task<IActionResult> ActivatePendingSubscription(Guid clinicId)
         {
             _logger.LogInformation("Manually activating pending subscription for clinicId: {ClinicId}", clinicId);
 

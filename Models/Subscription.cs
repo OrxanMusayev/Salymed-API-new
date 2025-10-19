@@ -10,7 +10,7 @@ namespace backend.Models
 
         // Foreign Keys
         [Required]
-        public int ClinicId { get; set; }
+        public Guid ClinicId { get; set; }
 
         [Required]
         public int PlanId { get; set; }

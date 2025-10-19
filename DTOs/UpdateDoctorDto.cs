@@ -47,6 +47,6 @@ namespace backend.DTOs
         [Range(0.0, 5.0, ErrorMessage = "Reytinq 0-5 arasında olmalıdır")]
         public double Rating { get; set; } = 0.0;
 
-        public int? ClinicId { get; set; }
+        public Guid? ClinicId { get; set; }
     }
 }

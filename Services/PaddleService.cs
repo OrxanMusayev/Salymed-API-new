@@ -52,54 +52,42 @@ namespace backend.Services
 
                 // Paddle Transactions API - Checkout için transaction oluştur
                 // Bu transaction, Paddle Overlay'de gösterilecek
-                
-                // Localhost kontrolü - Paddle localhost domain'leri onaylamıyor
-                var isLocalhost = request.SuccessUrl.Contains("localhost") || request.SuccessUrl.Contains("127.0.0.1");
-                
-                // Base checkout data
-                dynamic checkoutData = new System.Dynamic.ExpandoObject();
-                checkoutData.items = new[]
+                var checkoutData = new
                 {
-                    new
+                    items = new[]
                     {
-                        price_id = request.PaddlePriceId,
-                        quantity = 1
+                        new
+                        {
+                            price_id = request.PaddlePriceId,
+                            quantity = 1
+                        }
+                    },
+                    customer_email = request.CustomerEmail,
+                    customer_ip_address = "0.0.0.0", // Optional: Frontend'den gönderebilirsiniz
+                    custom_data = new
+                    {
+                        clinic_id = request.ClinicId,
+                        plan_id = request.PlanId,
+                        user_id = request.UserId
+                    },
+                    checkout = new
+                    {
+                        settings = new
+                        {
+                            success_url = request.SuccessUrl,
+                            // Paddle Overlay otomatik olarak overlay kapatır ve success_url'e yönlendirir
+                        }
                     }
                 };
-                
-                // ✅ Customer bilgileri
-                checkoutData.customer_email = request.CustomerEmail;
-                checkoutData.customer_ip_address = "0.0.0.0";
-                
-                // ✅ Custom data - webhook için
-                checkoutData.custom_data = new
-                {
-                    clinic_id = request.ClinicId,
-                    plan_id = request.PlanId,
-                    user_id = request.UserId
-                };
-                
-                // ✅ Checkout settings - success URL dahil
-                checkoutData.checkout = new
-                {
-                    settings = new
-                    {
-                        success_url = request.SuccessUrl,
-                        allowed_payment_methods = new[] { "card" } // ✅ Sadece kart ödemesi
-                    }
-                };
-                
-                _logger.LogInformation("Checkout settings added with success_url: {SuccessUrl}", request.SuccessUrl);
-                _logger.LogInformation("Payment methods restricted to: card only");
 
-                // Serialize checkout data for logging and API request
-                string jsonContent = JsonSerializer.Serialize((object)checkoutData, new JsonSerializerOptions
+                _logger.LogInformation("Sending transaction request to Paddle: {Request}",
+                    JsonSerializer.Serialize(checkoutData, new JsonSerializerOptions { WriteIndented = true }));
+
+                var jsonContent = JsonSerializer.Serialize(checkoutData, new JsonSerializerOptions
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
                     DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
                 });
-
-                _logger.LogInformation("Sending transaction request to Paddle: {Request}", jsonContent);
 
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -206,9 +194,9 @@ namespace backend.Services
     // Request/Response Models
     public class PaddleCheckoutRequest
     {
-        public int ClinicId { get; set; }
+        public Guid ClinicId { get; set; }
         public int PlanId { get; set; }
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public string PaddlePriceId { get; set; } = string.Empty;
         public string CustomerEmail { get; set; } = string.Empty;
         public string SuccessUrl { get; set; } = string.Empty;

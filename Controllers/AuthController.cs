@@ -156,7 +156,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null)
@@ -241,7 +241,7 @@ namespace backend.Controllers
 
     public class LoginResponseDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
@@ -278,8 +278,8 @@ namespace backend.Controllers
 
     public class ClinicRegistrationResponseDto
     {
-        public int UserId { get; set; }
-        public int ClinicId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid ClinicId { get; set; }
         public string Email { get; set; } = string.Empty;
         public string ClinicName { get; set; } = string.Empty;
         public string Token { get; set; } = string.Empty;

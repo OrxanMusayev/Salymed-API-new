@@ -5,7 +5,7 @@ namespace backend.Models
     public class Doctor
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -55,7 +55,7 @@ namespace backend.Models
         public DateTime? UpdatedAt { get; set; }
 
         // Foreign key - hansı klinikə aid olduğu
-        public int? ClinicId { get; set; }
+        public Guid? ClinicId { get; set; }
 
         // Navigation properties
         public virtual Clinic? Clinic { get; set; }

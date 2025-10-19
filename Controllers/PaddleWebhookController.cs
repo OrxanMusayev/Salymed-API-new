@@ -329,12 +329,12 @@ namespace backend.Controllers
     public class PaddleCustomData
     {
         [System.Text.Json.Serialization.JsonPropertyName("clinic_id")]
-        public int? ClinicId { get; set; }
+        public Guid? ClinicId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("plan_id")]
         public int? PlanId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("user_id")]
-        public int? UserId { get; set; }
+        public Guid? UserId { get; set; }
     }
 }

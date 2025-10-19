@@ -61,14 +61,14 @@ namespace backend.Repositories
             return (doctors, totalCount);
         }
 
-        public async Task<Doctor?> GetByIdAsync(int id)
+        public async Task<Doctor?> GetByIdAsync(Guid id)
         {
             return await _context.Doctors
                 .Include(d => d.Clinic)
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
 
-        public async Task<IEnumerable<Doctor>> GetByClinicIdAsync(int clinicId)
+        public async Task<IEnumerable<Doctor>> GetByClinicIdAsync(Guid clinicId)
         {
             return await _context.Doctors
                 .Where(d => d.ClinicId == clinicId)
@@ -131,7 +131,7 @@ namespace backend.Repositories
             return await GetByIdAsync(doctor.Id) ?? doctor;
         }
 
-        public async Task<Doctor?> UpdateAsync(int id, Doctor doctor)
+        public async Task<Doctor?> UpdateAsync(Guid id, Doctor doctor)
         {
             if (doctor == null)
                 throw new ArgumentNullException(nameof(doctor));
@@ -162,7 +162,7 @@ namespace backend.Repositories
             return await GetByIdAsync(id);
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var doctor = await _context.Doctors.FindAsync(id);
             if (doctor == null)
@@ -174,12 +174,12 @@ namespace backend.Repositories
             return true;
         }
 
-        public async Task<bool> ExistsAsync(int id)
+        public async Task<bool> ExistsAsync(Guid id)
         {
             return await _context.Doctors.AnyAsync(d => d.Id == id);
         }
 
-        public async Task<bool> EmailExistsAsync(string email, int? excludeId = null)
+        public async Task<bool> EmailExistsAsync(string email, Guid? excludeId = null)
         {
             var query = _context.Doctors.Where(d => d.Email.ToLower() == email.ToLower());
 

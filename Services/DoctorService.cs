@@ -43,13 +43,13 @@ namespace backend.Services
             };
         }
 
-        public async Task<DoctorResponseDto?> GetDoctorByIdAsync(int id)
+        public async Task<DoctorResponseDto?> GetDoctorByIdAsync(Guid id)
         {
             var doctor = await _doctorRepository.GetByIdAsync(id);
             return doctor != null ? MapToDto(doctor) : null;
         }
 
-        public async Task<IEnumerable<DoctorResponseDto>> GetDoctorsByClinicIdAsync(int clinicId)
+        public async Task<IEnumerable<DoctorResponseDto>> GetDoctorsByClinicIdAsync(Guid clinicId)
         {
             var doctors = await _doctorRepository.GetByClinicIdAsync(clinicId);
             return doctors.Select(MapToDto);
@@ -94,7 +94,7 @@ namespace backend.Services
             return MapToDto(createdDoctor);
         }
 
-        public async Task<DoctorResponseDto?> UpdateDoctorAsync(int id, UpdateDoctorDto updateDoctorDto, IFormFile? avatar = null)
+        public async Task<DoctorResponseDto?> UpdateDoctorAsync(Guid id, UpdateDoctorDto updateDoctorDto, IFormFile? avatar = null)
         {
             // Business logic validation
             if (!await _doctorRepository.ExistsAsync(id))
@@ -120,7 +120,7 @@ namespace backend.Services
             return updatedDoctor != null ? MapToDto(updatedDoctor) : null;
         }
 
-        public async Task<bool> DeleteDoctorAsync(int id)
+        public async Task<bool> DeleteDoctorAsync(Guid id)
         {
             if (!await _doctorRepository.ExistsAsync(id))
             {
@@ -130,7 +130,7 @@ namespace backend.Services
             return await _doctorRepository.DeleteAsync(id);
         }
 
-        public async Task<bool> DoctorExistsAsync(int id)
+        public async Task<bool> DoctorExistsAsync(Guid id)
         {
             return await _doctorRepository.ExistsAsync(id);
         }

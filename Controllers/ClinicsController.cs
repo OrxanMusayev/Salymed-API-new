@@ -28,7 +28,7 @@ namespace backend.Controllers
 
         // GET: api/clinics/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Clinic>> GetClinic(int id)
+        public async Task<ActionResult<Clinic>> GetClinic(Guid id)
         {
             var clinic = await _context.Clinics
                 .Include(c => c.Owner)
@@ -70,7 +70,7 @@ namespace backend.Controllers
 
         // PUT: api/clinics/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClinic(int id, UpdateClinicDto clinicDto)
+        public async Task<IActionResult> PutClinic(Guid id, UpdateClinicDto clinicDto)
         {
             var clinic = await _context.Clinics.FindAsync(id);
             if (clinic == null)
@@ -109,7 +109,7 @@ namespace backend.Controllers
 
         // DELETE: api/clinics/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteClinic(int id)
+        public async Task<IActionResult> DeleteClinic(Guid id)
         {
             var clinic = await _context.Clinics.FindAsync(id);
             if (clinic == null)
@@ -126,7 +126,7 @@ namespace backend.Controllers
 
         // GET: api/clinics/user/5
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Clinic>>> GetClinicsByUser(int userId)
+        public async Task<ActionResult<IEnumerable<Clinic>>> GetClinicsByUser(Guid userId)
         {
             return await _context.Clinics
                 .Where(c => c.OwnerId == userId && c.IsActive)
@@ -200,7 +200,7 @@ namespace backend.Controllers
             }
         }
 
-        private bool ClinicExists(int id)
+        private bool ClinicExists(Guid id)
         {
             return _context.Clinics.Any(e => e.Id == id);
         }
@@ -219,7 +219,7 @@ namespace backend.Controllers
         public string? City { get; set; }
         public string? State { get; set; }
         public string? ZipCode { get; set; }
-        public int? OwnerId { get; set; }
+        public Guid? OwnerId { get; set; }
     }
 
     public class UpdateClinicDto

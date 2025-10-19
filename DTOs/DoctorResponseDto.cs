@@ -2,7 +2,7 @@ namespace backend.DTOs
 {
     public class DoctorResponseDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
@@ -18,7 +18,7 @@ namespace backend.DTOs
         public double Rating { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public int? ClinicId { get; set; }
+        public Guid? ClinicId { get; set; }
         public string? ClinicName { get; set; } // Clinic adı da göstərmək üçün
     }
 }

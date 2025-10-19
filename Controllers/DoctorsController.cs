@@ -62,7 +62,7 @@ namespace backend.Controllers
         /// ID-yə görə həkim gətir
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<ActionResult<DoctorResponseDto>> GetDoctor(int id)
+        public async Task<ActionResult<DoctorResponseDto>> GetDoctor(Guid id)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace backend.Controllers
         /// Klinikə görə həkimləri gətir
         /// </summary>
         [HttpGet("clinic/{clinicId}")]
-        public async Task<ActionResult<IEnumerable<DoctorResponseDto>>> GetDoctorsByClinic(int clinicId)
+        public async Task<ActionResult<IEnumerable<DoctorResponseDto>>> GetDoctorsByClinic(Guid clinicId)
         {
             try
             {
@@ -198,7 +198,7 @@ namespace backend.Controllers
         /// Həkimi yenilə (avatar faylı ilə)
         /// </summary>
         [HttpPut("{id}")]
-        public async Task<ActionResult<DoctorResponseDto>> UpdateDoctor(int id, [FromForm] UpdateDoctorDto updateDoctorDto, IFormFile? avatar)
+        public async Task<ActionResult<DoctorResponseDto>> UpdateDoctor(Guid id, [FromForm] UpdateDoctorDto updateDoctorDto, IFormFile? avatar)
         {
             try
             {
@@ -232,7 +232,7 @@ namespace backend.Controllers
         /// Həkimi sil
         /// </summary>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDoctor(int id)
+        public async Task<IActionResult> DeleteDoctor(Guid id)
         {
             try
             {
@@ -256,7 +256,7 @@ namespace backend.Controllers
         /// Həkimin mövcudluğunu yoxla
         /// </summary>
         [HttpHead("{id}")]
-        public async Task<IActionResult> DoctorExists(int id)
+        public async Task<IActionResult> DoctorExists(Guid id)
         {
             try
             {

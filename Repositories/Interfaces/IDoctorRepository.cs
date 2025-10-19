@@ -7,15 +7,15 @@ namespace backend.Repositories.Interfaces
     {
         Task<IEnumerable<Doctor>> GetAllAsync();
         Task<(IEnumerable<Doctor> doctors, int totalCount)> GetPaginatedAsync(PaginationRequest request);
-        Task<Doctor?> GetByIdAsync(int id);
-        Task<IEnumerable<Doctor>> GetByClinicIdAsync(int clinicId);
+        Task<Doctor?> GetByIdAsync(Guid id);
+        Task<IEnumerable<Doctor>> GetByClinicIdAsync(Guid clinicId);
         Task<IEnumerable<Doctor>> GetActiveAsync();
         Task<IEnumerable<Doctor>> SearchAsync(string searchTerm);
         Task<IEnumerable<Doctor>> GetBySpecialtyAsync(string specialty);
         Task<Doctor> CreateAsync(Doctor doctor);
-        Task<Doctor?> UpdateAsync(int id, Doctor doctor);
-        Task<bool> DeleteAsync(int id);
-        Task<bool> ExistsAsync(int id);
-        Task<bool> EmailExistsAsync(string email, int? excludeId = null);
+        Task<Doctor?> UpdateAsync(Guid id, Doctor doctor);
+        Task<bool> DeleteAsync(Guid id);
+        Task<bool> ExistsAsync(Guid id);
+        Task<bool> EmailExistsAsync(string email, Guid? excludeId = null);
     }
 }

@@ -8,11 +8,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class AddSubscriptionStructure : Migration
+    public partial class InitialCreateWithGuids : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ClinicTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClinicTypes", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "PlanFeatures",
                 columns: table => new
@@ -42,6 +59,7 @@ namespace backend.Migrations
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    PaddlePriceId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Period = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsFeatured = table.Column<bool>(type: "bit", nullable: false),
@@ -52,6 +70,27 @@ namespace backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SubscriptionPlans", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    PhoneCountryCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,12 +121,77 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Clinics",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    PhoneCountryCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Website = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clinics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clinics_Users_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doctors",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    PhoneCountryCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Specialty = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    YearsExperience = table.Column<int>(type: "int", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    WorkingHours = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    AvatarUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Rating = table.Column<double>(type: "float(3)", precision: 3, scale: 2, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ClinicId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctors_Clinics_ClinicId",
+                        column: x => x.ClinicId,
+                        principalTable: "Clinics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Subscriptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClinicId = table.Column<int>(type: "int", nullable: false),
+                    ClinicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PlanId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -97,6 +201,8 @@ namespace backend.Migrations
                     Currency = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     PaymentMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     TransactionId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PaddleTransactionId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PaddleSubscriptionId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     IsTrialPeriod = table.Column<bool>(type: "bit", nullable: false),
                     TrialEndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AutoRenew = table.Column<bool>(type: "bit", nullable: false),
@@ -125,6 +231,21 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "ClinicTypes",
+                columns: new[] { "Id", "CreatedAt", "Description", "IsActive", "Name", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "Özəl sağlamlıq xidmətləri göstərən klinika", true, "Xüsusi Klinika", null },
+                    { 2, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "Dövlət tərəfindən idarə olunan sağlamlıq müəssisəsi", true, "Dövlət Klinikası", null },
+                    { 3, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "Ümumi sağlamlıq xidmətləri göstərən müəssisə", true, "Poliklinika", null },
+                    { 4, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "Diş sağlamlığı xidmətləri", true, "Diş Klinikası", null },
+                    { 5, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "Estetik və gözəllik xidmətləri", true, "Gözəllik Mərkəzi", null },
+                    { 6, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "Tibbi test və analiz xidmətləri", true, "Laboratoriya", null },
+                    { 7, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "Yataqlı müalicə müəssisəsi", true, "Xəstəxana", null },
+                    { 8, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "Digər sağlamlıq xidmətləri", true, "Digər", null }
+                });
+
+            migrationBuilder.InsertData(
                 table: "PlanFeatures",
                 columns: new[] { "Id", "CreatedAt", "Description", "DisplayOrder", "IsActive", "IsPremium", "Name", "UpdatedAt" },
                 values: new object[,]
@@ -147,12 +268,12 @@ namespace backend.Migrations
 
             migrationBuilder.InsertData(
                 table: "SubscriptionPlans",
-                columns: new[] { "Id", "CreatedAt", "Currency", "Description", "DisplayOrder", "IsActive", "IsFeatured", "Name", "Period", "Price", "UpdatedAt" },
+                columns: new[] { "Id", "CreatedAt", "Currency", "Description", "DisplayOrder", "IsActive", "IsFeatured", "Name", "PaddlePriceId", "Period", "Price", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "AZN", "Tək həkimli kliniklər üçün", 1, true, false, "Başlanğıc", 2, 45.00m, null },
-                    { 2, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "AZN", "3 həkimə qədər olan kliniklər üçün", 2, true, true, "Professional", 2, 75.00m, null },
-                    { 3, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "AZN", "10 həkimə qədər olan kliniklər üçün", 3, true, false, "Premium", 2, 125.00m, null }
+                    { 1, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "USD", "Tək həkimli kliniklər üçün", 1, true, false, "Başlanğıc", null, 2, 45.00m, null },
+                    { 2, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "USD", "3 həkimə qədər olan kliniklər üçün", 2, true, true, "Professional", null, 2, 75.00m, null },
+                    { 3, new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Utc), "USD", "10 həkimə qədər olan kliniklər üçün", 3, true, false, "Premium", null, 2, 125.00m, null }
                 });
 
             migrationBuilder.InsertData(
@@ -199,6 +320,28 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Clinics_OwnerId",
+                table: "Clinics",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClinicTypes_Name",
+                table: "ClinicTypes",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctors_ClinicId",
+                table: "Doctors",
+                column: "ClinicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctors_Email",
+                table: "Doctors",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlanFeatureMappings_FeatureId",
                 table: "PlanFeatureMappings",
                 column: "FeatureId");
@@ -228,11 +371,23 @@ namespace backend.Migrations
                 name: "IX_Subscriptions_Status",
                 table: "Subscriptions",
                 column: "Status");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ClinicTypes");
+
+            migrationBuilder.DropTable(
+                name: "Doctors");
+
             migrationBuilder.DropTable(
                 name: "PlanFeatureMappings");
 
@@ -243,7 +398,13 @@ namespace backend.Migrations
                 name: "PlanFeatures");
 
             migrationBuilder.DropTable(
+                name: "Clinics");
+
+            migrationBuilder.DropTable(
                 name: "SubscriptionPlans");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

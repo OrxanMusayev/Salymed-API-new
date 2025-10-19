@@ -73,9 +73,9 @@ namespace backend.Controllers
                 // Paddle checkout session oluştur
                 var checkoutRequest = new PaddleCheckoutRequest
                 {
-                    ClinicId = request.ClinicId ?? 0,
+                    ClinicId = request.ClinicId ?? Guid.Empty,
                     PlanId = request.PlanId,
-                    UserId = request.UserId ?? 0,
+                    UserId = request.UserId ?? Guid.Empty,
                     PaddlePriceId = plan.PaddlePriceId,
                     CustomerEmail = request.CustomerEmail,
                     SuccessUrl = successUrl,
@@ -89,7 +89,7 @@ namespace backend.Controllers
                     _logger.LogInformation("Checkout session created: {TransactionId}", result.TransactionId);
 
                     // Pending subscription kaydı oluştur (webhook geldiğinde güncellenecek)
-                    if (request.ClinicId.HasValue && request.ClinicId.Value > 0)
+                    if (request.ClinicId.HasValue && request.ClinicId.Value != Guid.Empty)
                     {
                         var subscription = new Subscription
                         {
