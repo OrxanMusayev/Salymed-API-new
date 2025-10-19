@@ -2,10 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
-using backend.Services;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
@@ -14,12 +12,10 @@ namespace backend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly JwtService _jwtService;
 
-        public AuthController(ApplicationDbContext context, JwtService jwtService)
+        public AuthController(ApplicationDbContext context)
         {
             _context = context;
-            _jwtService = jwtService;
         }
 
         [HttpPost("register")]
@@ -105,7 +101,6 @@ namespace backend.Controllers
                     Address = registrationDto.Clinic.Address,
                     City = registrationDto.Clinic.City,
                     Type = registrationDto.Clinic.Type,
-                    RegistrationCompleted = true,
                     OwnerId = adminUser.Id,
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow
@@ -116,20 +111,14 @@ namespace backend.Controllers
 
                 await transaction.CommitAsync();
 
-                // Generate real JWT token
-                var token = _jwtService.GenerateToken(adminUser, clinic.Id);
-
                 // Return response with created data
                 return Ok(new ClinicRegistrationResponseDto
                 {
                     UserId = adminUser.Id,
                     ClinicId = clinic.Id,
                     Email = adminUser.Email,
-                    FirstName = adminUser.FirstName,
-                    LastName = adminUser.LastName,
                     ClinicName = clinic.Name,
-                    Role = adminUser.Role,
-                    Token = token,
+                    Token = "fake-jwt-token", // In real app, generate JWT token
                     Message = "Clinic registration successful"
                 });
             }
@@ -155,23 +144,6 @@ namespace backend.Controllers
                 return Unauthorized("Account is deactivated");
             }
 
-            // Check if user is a clinic admin and get clinic info
-            Guid? clinicId = null;
-            string? clinicName = null;
-            
-            if (user.Role == "ClinicAdmin")
-            {
-                var clinic = await _context.Clinics.FirstOrDefaultAsync(c => c.OwnerId == user.Id);
-                if (clinic != null)
-                {
-                    clinicId = clinic.Id;
-                    clinicName = clinic.Name;
-                }
-            }
-
-            // Generate real JWT token
-            var token = _jwtService.GenerateToken(user, clinicId);
-
             return Ok(new LoginResponseDto
             {
                 Id = user.Id,
@@ -179,9 +151,7 @@ namespace backend.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 Role = user.Role,
-                ClinicId = clinicId,
-                ClinicName = clinicName,
-                Token = token
+                Token = "fake-jwt-token" // In real app, generate JWT token
             });
         }
 
@@ -197,25 +167,6 @@ namespace backend.Controllers
             // Don't return password hash
             user.PasswordHash = "";
             return user;
-        }
-        [HttpPost("logout")]
-        [Authorize] // Requires authentication
-        public IActionResult Logout()
-        {
-            // Get current user from JWT token
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-            
-            // Log the logout event
-            Console.WriteLine($"User logout: {userEmail} (ID: {userId})");
-            
-            // JWT kullanıldığında logout genelde client-side'da token silmektir
-            // Burada ek işlemler yapılabilir:
-            // 1. Token'ı blacklist'e ekle (Redis gibi)
-            // 2. User activity log kaydet
-            // 3. Session bilgilerini temizle
-            
-            return Ok(new { message = "Logout successful", userEmail });
         }
 
         private string HashPassword(string password)
@@ -295,8 +246,6 @@ namespace backend.Controllers
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
-        public Guid? ClinicId { get; set; }
-        public string? ClinicName { get; set; }
         public string Token { get; set; } = string.Empty;
     }
 
@@ -332,10 +281,7 @@ namespace backend.Controllers
         public Guid UserId { get; set; }
         public Guid ClinicId { get; set; }
         public string Email { get; set; } = string.Empty;
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
         public string ClinicName { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty;
         public string Token { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
     }

@@ -44,11 +44,6 @@ namespace backend.Models
         public string? ZipCode { get; set; }
         
         public bool IsActive { get; set; } = true;
-
-        /// <summary>
-        /// Indicates if the clinic registration process is completed
-        /// </summary>
-        public bool RegistrationCompleted { get; set; } = false;
         
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         

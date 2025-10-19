@@ -43,6 +43,20 @@ namespace backend.Services
             };
         }
 
+        public async Task<PaginatedResponse<DoctorResponseDto>> GetPaginatedDoctorsByClinicIdAsync(PaginationRequest request, Guid clinicId)
+        {
+            var (doctors, totalCount) = await _doctorRepository.GetPaginatedByClinicIdAsync(request, clinicId);
+
+            return new PaginatedResponse<DoctorResponseDto>
+            {
+                Data = doctors.Select(MapToDto),
+                Page = request.Page,
+                PageSize = request.PageSize,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / request.PageSize)
+            };
+        }
+
         public async Task<DoctorResponseDto?> GetDoctorByIdAsync(Guid id)
         {
             var doctor = await _doctorRepository.GetByIdAsync(id);

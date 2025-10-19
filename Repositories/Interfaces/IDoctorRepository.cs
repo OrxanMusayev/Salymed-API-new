@@ -7,6 +7,7 @@ namespace backend.Repositories.Interfaces
     {
         Task<IEnumerable<Doctor>> GetAllAsync();
         Task<(IEnumerable<Doctor> doctors, int totalCount)> GetPaginatedAsync(PaginationRequest request);
+        Task<(IEnumerable<Doctor> doctors, int totalCount)> GetPaginatedByClinicIdAsync(PaginationRequest request, Guid clinicId);
         Task<Doctor?> GetByIdAsync(Guid id);
         Task<IEnumerable<Doctor>> GetByClinicIdAsync(Guid clinicId);
         Task<IEnumerable<Doctor>> GetActiveAsync();

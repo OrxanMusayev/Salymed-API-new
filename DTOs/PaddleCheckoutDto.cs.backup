@@ -6,8 +6,6 @@ namespace backend.DTOs
         public string CustomerEmail { get; set; } = string.Empty;
         public Guid? ClinicId { get; set; }
         public Guid? UserId { get; set; }
-        public string? SuccessUrl { get; set; }  // ✅ Added for frontend control
-        public string? CancelUrl { get; set; }   // ✅ Added for frontend control
     }
 
     public class CreateCheckoutResponseDto

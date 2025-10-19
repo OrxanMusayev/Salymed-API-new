@@ -61,6 +61,47 @@ namespace backend.Repositories
             return (doctors, totalCount);
         }
 
+        public async Task<(IEnumerable<Doctor> doctors, int totalCount)> GetPaginatedByClinicIdAsync(PaginationRequest request, Guid clinicId)
+        {
+            // ✅ ClinicId ile filtreleme
+            var query = _context.Doctors
+                .Include(d => d.Clinic)
+                .Where(d => d.ClinicId == clinicId)
+                .AsQueryable();
+
+            // Apply sorting
+            query = request.SortBy.ToLower() switch
+            {
+                "firstname" => request.SortDirection.ToLower() == "asc"
+                    ? query.OrderBy(d => d.FirstName)
+                    : query.OrderByDescending(d => d.FirstName),
+                "lastname" => request.SortDirection.ToLower() == "asc"
+                    ? query.OrderBy(d => d.LastName)
+                    : query.OrderByDescending(d => d.LastName),
+                "email" => request.SortDirection.ToLower() == "asc"
+                    ? query.OrderBy(d => d.Email)
+                    : query.OrderByDescending(d => d.Email),
+                "specialty" => request.SortDirection.ToLower() == "asc"
+                    ? query.OrderBy(d => d.Specialty)
+                    : query.OrderByDescending(d => d.Specialty),
+                "createdat" => request.SortDirection.ToLower() == "asc"
+                    ? query.OrderBy(d => d.CreatedAt)
+                    : query.OrderByDescending(d => d.CreatedAt),
+                "updatedat" or _ => request.SortDirection.ToLower() == "asc"
+                    ? query.OrderBy(d => d.UpdatedAt ?? d.CreatedAt).ThenBy(d => d.CreatedAt)
+                    : query.OrderByDescending(d => d.UpdatedAt ?? d.CreatedAt).ThenByDescending(d => d.CreatedAt)
+            };
+
+            var totalCount = await query.CountAsync();
+
+            var doctors = await query
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            return (doctors, totalCount);
+        }
+
         public async Task<Doctor?> GetByIdAsync(Guid id)
         {
             return await _context.Doctors

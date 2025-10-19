@@ -7,6 +7,7 @@ namespace backend.Services.Interfaces
     {
         Task<IEnumerable<DoctorResponseDto>> GetAllDoctorsAsync();
         Task<PaginatedResponse<DoctorResponseDto>> GetPaginatedDoctorsAsync(PaginationRequest request);
+        Task<PaginatedResponse<DoctorResponseDto>> GetPaginatedDoctorsByClinicIdAsync(PaginationRequest request, Guid clinicId);
         Task<DoctorResponseDto?> GetDoctorByIdAsync(Guid id);
         Task<IEnumerable<DoctorResponseDto>> GetDoctorsByClinicIdAsync(Guid clinicId);
         Task<IEnumerable<DoctorResponseDto>> GetActiveDoctorsAsync();

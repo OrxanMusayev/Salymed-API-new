@@ -77,12 +77,6 @@ namespace backend.Models
         /// <summary>
         /// Sınaq müddəti aktivdir
         /// </summary>
-
-        /// <summary>
-        /// Indicates if there is an active payment process for this subscription
-        /// Used to prevent duplicate payment attempts
-        /// </summary>
-        public bool HasActivePaymentProcess { get; set; } = false;
         public bool IsTrialPeriod { get; set; } = false;
 
         /// <summary>

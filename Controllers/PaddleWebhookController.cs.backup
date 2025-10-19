@@ -159,7 +159,6 @@ namespace backend.Controllers
             }
 
             subscription.Status = SubscriptionStatus.Active;
-            subscription.HasActivePaymentProcess = false; // ✅ Clear payment process flag
             subscription.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
@@ -188,7 +187,6 @@ namespace backend.Controllers
             }
 
             subscription.Status = SubscriptionStatus.Active;
-            subscription.HasActivePaymentProcess = false; // ✅ Clear payment process flag
             subscription.TransactionId = transactionId;
             subscription.UpdatedAt = DateTime.UtcNow;
 

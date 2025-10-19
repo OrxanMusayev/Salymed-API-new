@@ -18,28 +18,42 @@ namespace backend.Controllers
         }
 
         /// <summary>
-        /// Bütün həkimləri gətir
+        /// Bütün həkimləri gətir (clinicId ilə filtrələnmiş)
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DoctorResponseDto>>> GetAllDoctors()
+        public async Task<ActionResult<IEnumerable<DoctorResponseDto>>> GetAllDoctors([FromQuery] Guid? clinicId = null)
         {
             try
             {
-                var doctors = await _doctorService.GetAllDoctorsAsync();
+                IEnumerable<DoctorResponseDto> doctors;
+                
+                if (clinicId.HasValue)
+                {
+                    _logger.LogInformation("Klinik ID: {ClinicId} üçün həkimlər gətirilir", clinicId);
+                    doctors = await _doctorService.GetDoctorsByClinicIdAsync(clinicId.Value);
+                }
+                else
+                {
+                    _logger.LogInformation("Bütün həkimlər gətirilir (filtr yoxdur)");
+                    doctors = await _doctorService.GetAllDoctorsAsync();
+                }
+                
                 return Ok(doctors);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Həkimləri gətirərkən xəta yarandı");
+                _logger.LogError(ex, "Həkimləri gətirərkən xəta yarandı. ClinicId: {ClinicId}", clinicId);
                 return StatusCode(500, "Daxili server xətası");
             }
         }
 
         /// <summary>
-        /// Səhifələnmiş həkim siyahısını gətir
+        /// Səhifələnmiş həkim siyahısını gətir (clinicId ilə filtrələnmiş)
         /// </summary>
         [HttpGet("paginated")]
-        public async Task<ActionResult<PaginatedResponse<DoctorResponseDto>>> GetPaginatedDoctors([FromQuery] PaginationRequest request)
+        public async Task<ActionResult<PaginatedResponse<DoctorResponseDto>>> GetPaginatedDoctors(
+            [FromQuery] PaginationRequest request,
+            [FromQuery] Guid? clinicId = null)
         {
             try
             {
@@ -48,12 +62,24 @@ namespace backend.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var result = await _doctorService.GetPaginatedDoctorsAsync(request);
+                PaginatedResponse<DoctorResponseDto> result;
+
+                if (clinicId.HasValue)
+                {
+                    _logger.LogInformation("Klinik ID: {ClinicId} üçün səhifələnmiş həkimlər gətirilir", clinicId);
+                    result = await _doctorService.GetPaginatedDoctorsByClinicIdAsync(request, clinicId.Value);
+                }
+                else
+                {
+                    _logger.LogInformation("Bütün həkimlər səhifələnmiş şəkildə gətirilir (filtr yoxdur)");
+                    result = await _doctorService.GetPaginatedDoctorsAsync(request);
+                }
+
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Səhifələnmiş həkimləri gətirərkən xəta yarandı");
+                _logger.LogError(ex, "Səhifələnmiş həkimləri gətirərkən xəta yarandı. ClinicId: {ClinicId}", clinicId);
                 return StatusCode(500, "Daxili server xətası");
             }
         }
