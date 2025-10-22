@@ -2,8 +2,10 @@ using backend.DTOs;
 using backend.Services;
 using backend.Models;
 using backend.Data;
+using backend.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace backend.Controllers
 {
@@ -15,17 +17,20 @@ namespace backend.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ILogger<PaymentController> _logger;
         private readonly IConfiguration _configuration;
+        private readonly SubscriptionSettings _subscriptionSettings;
 
         public PaymentController(
             IPaddleService paddleService,
             ApplicationDbContext context,
             ILogger<PaymentController> logger,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IOptions<SubscriptionSettings> subscriptionSettings)
         {
             _paddleService = paddleService;
             _context = context;
             _logger = logger;
             _configuration = configuration;
+            _subscriptionSettings = subscriptionSettings.Value;
         }
 
         /// <summary>
@@ -92,11 +97,11 @@ namespace backend.Controllers
                     var existingSubscription = await _context.Subscriptions
                         .Where(s => s.ClinicId == request.ClinicId.Value
                                     && s.PlanId == request.PlanId
-                                    && (s.Status == SubscriptionStatus.Active || s.Status == SubscriptionStatus.PendingPayment)
+                                    && (s.Status == (int)SubscriptionStatus.Active || s.Status == (int)SubscriptionStatus.PendingPayment)
                                     && s.EndDate > DateTime.UtcNow)
                         .FirstOrDefaultAsync();
 
-                    if (existingSubscription != null && existingSubscription.Status == SubscriptionStatus.Active)
+                    if (existingSubscription != null && existingSubscription.Status == (int)SubscriptionStatus.Active)
                     {
                         _logger.LogWarning("Duplicate subscription detected for clinic {ClinicId}, plan {PlanId}",
                             request.ClinicId, request.PlanId);
@@ -162,15 +167,27 @@ namespace backend.Controllers
                         {
                             ClinicId = request.ClinicId.Value,
                             PlanId = request.PlanId,
-                            Status = SubscriptionStatus.PendingPayment,
+                            Status = (int)SubscriptionStatus.PendingPayment,
                             PaddleTransactionId = result.TransactionId,
                             HasActivePaymentProcess = true, // ✅ Mark as active payment process
-                            AmountPaid = plan.Price,
                             Currency = plan.Currency,
                             StartDate = DateTime.UtcNow,
                             EndDate = DateTime.UtcNow.AddMonths(1), // Varsayılan olarak 1 ay
                             PaymentMethod = "Paddle"
                         };
+
+                        // Set trial period from configuration if enabled
+                        if (_subscriptionSettings.HasTrialPeriod)
+                        {
+                            subscription.IsTrialPeriod = true;
+                            subscription.TrialEndDate = DateTime.UtcNow.AddMonths(_subscriptionSettings.TrialPeriodMonths);
+                            // Extend subscription end date with trial period
+                            subscription.EndDate = subscription.EndDate.AddMonths(_subscriptionSettings.TrialPeriodMonths);
+                            subscription.NextBillingDate = subscription.TrialEndDate;
+
+                            _logger.LogInformation("Trial period set for {Months} months, ending at {TrialEndDate}",
+                                _subscriptionSettings.TrialPeriodMonths, subscription.TrialEndDate);
+                        }
 
                         _context.Subscriptions.Add(subscription);
                         await _context.SaveChangesAsync();
@@ -282,7 +299,7 @@ namespace backend.Controllers
                 {
                     var activeSubscription = await _context.Subscriptions
                         .Where(s => s.ClinicId == request.ClinicId.Value
-                                    && s.Status == SubscriptionStatus.Active
+                                    && s.Status == (int)SubscriptionStatus.Active
                                     && s.EndDate > DateTime.UtcNow)
                         .FirstOrDefaultAsync();
 

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
@@ -58,6 +59,7 @@ namespace backend.Models
         public Guid? ClinicId { get; set; }
 
         // Navigation properties
+        [ForeignKey("ClinicId")]
         public virtual Clinic? Clinic { get; set; }
     }
 }

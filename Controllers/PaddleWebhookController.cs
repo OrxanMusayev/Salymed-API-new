@@ -1,8 +1,10 @@
 using backend.Services;
 using backend.Data;
 using backend.Models;
+using backend.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace backend.Controllers
@@ -14,15 +16,18 @@ namespace backend.Controllers
         private readonly IPaddleService _paddleService;
         private readonly ApplicationDbContext _context;
         private readonly ILogger<PaddleWebhookController> _logger;
+        private readonly SubscriptionSettings _subscriptionSettings;
 
         public PaddleWebhookController(
             IPaddleService paddleService,
             ApplicationDbContext context,
-            ILogger<PaddleWebhookController> logger)
+            ILogger<PaddleWebhookController> logger,
+            IOptions<SubscriptionSettings> subscriptionSettings)
         {
             _paddleService = paddleService;
             _context = context;
             _logger = logger;
+            _subscriptionSettings = subscriptionSettings.Value;
         }
 
         /// <summary>
@@ -158,9 +163,29 @@ namespace backend.Controllers
                 return;
             }
 
-            subscription.Status = SubscriptionStatus.Active;
+            subscription.Status = (int)SubscriptionStatus.Active;
             subscription.HasActivePaymentProcess = false; // ✅ Clear payment process flag
             subscription.UpdatedAt = DateTime.UtcNow;
+
+            // Set trial period from configuration if enabled
+            if (_subscriptionSettings.HasTrialPeriod)
+            {
+                subscription.IsTrialPeriod = true;
+                subscription.TrialEndDate = DateTime.UtcNow.AddMonths(_subscriptionSettings.TrialPeriodMonths);
+
+                // Extend subscription end date with trial period
+                subscription.EndDate = subscription.EndDate.AddMonths(_subscriptionSettings.TrialPeriodMonths);
+                subscription.NextBillingDate = subscription.TrialEndDate;
+
+                _logger.LogInformation("Trial period set for {Months} months, ending at {TrialEndDate}",
+                    _subscriptionSettings.TrialPeriodMonths, subscription.TrialEndDate);
+            }
+
+            // Save payment method if available
+            await SavePaymentMethodFromWebhook(webhookData, subscription.ClinicId, subscription.PlanId);
+
+            // Create invoice for this payment
+            await CreateInvoiceFromWebhook(webhookData, subscription);
 
             await _context.SaveChangesAsync();
 
@@ -187,7 +212,7 @@ namespace backend.Controllers
                 return;
             }
 
-            subscription.Status = SubscriptionStatus.Active;
+            subscription.Status = (int)SubscriptionStatus.Active;
             subscription.HasActivePaymentProcess = false; // ✅ Clear payment process flag
             subscription.TransactionId = transactionId;
             subscription.UpdatedAt = DateTime.UtcNow;
@@ -197,6 +222,26 @@ namespace backend.Controllers
             {
                 subscription.PaddleSubscriptionId = webhookData.Data.SubscriptionId;
             }
+
+            // Set trial period from configuration if enabled
+            if (_subscriptionSettings.HasTrialPeriod)
+            {
+                subscription.IsTrialPeriod = true;
+                subscription.TrialEndDate = DateTime.UtcNow.AddMonths(_subscriptionSettings.TrialPeriodMonths);
+
+                // Extend subscription end date with trial period
+                subscription.EndDate = subscription.EndDate.AddMonths(_subscriptionSettings.TrialPeriodMonths);
+                subscription.NextBillingDate = subscription.TrialEndDate;
+
+                _logger.LogInformation("Trial period set for {Months} months, ending at {TrialEndDate}",
+                    _subscriptionSettings.TrialPeriodMonths, subscription.TrialEndDate);
+            }
+
+            // Save payment method if available
+            await SavePaymentMethodFromWebhook(webhookData, subscription.ClinicId, subscription.PlanId);
+
+            // Create invoice for this payment
+            await CreateInvoiceFromWebhook(webhookData, subscription);
 
             await _context.SaveChangesAsync();
 
@@ -223,7 +268,7 @@ namespace backend.Controllers
                 return;
             }
 
-            subscription.Status = SubscriptionStatus.PaymentFailed;
+            subscription.Status = (int)SubscriptionStatus.PaymentFailed;
             subscription.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
@@ -278,6 +323,80 @@ namespace backend.Controllers
             }
         }
 
+        private async Task SavePaymentMethodFromWebhook(PaddleWebhookEvent webhookData, Guid clinicId, int planId)
+        {
+            try
+            {
+                if (webhookData.Data?.Payments == null || !webhookData.Data.Payments.Any())
+                {
+                    _logger.LogInformation("No payment information in webhook data");
+                    return;
+                }
+
+                var paymentInfo = webhookData.Data.Payments.FirstOrDefault();
+                var cardDetails = paymentInfo?.MethodDetails?.Card;
+
+                if (cardDetails == null)
+                {
+                    _logger.LogInformation("No card details in payment information");
+                    return;
+                }
+
+                // Check if payment method already exists
+                var existingPaymentMethod = await _context.PaymentMethods
+                    .FirstOrDefaultAsync(pm => pm.ClinicId == clinicId
+                        && pm.CardLast4 == cardDetails.Last4
+                        && pm.CardExpiryMonth == cardDetails.ExpiryMonth
+                        && pm.CardExpiryYear == cardDetails.ExpiryYear);
+
+                if (existingPaymentMethod != null)
+                {
+                    _logger.LogInformation("Payment method already exists for clinic {ClinicId}", clinicId);
+                    return;
+                }
+
+                // Get userId from custom data if available
+                Guid? userId = webhookData.Data.CustomData?.UserId;
+
+                // Set existing payment methods as non-default
+                var existingMethods = await _context.PaymentMethods
+                    .Where(pm => pm.ClinicId == clinicId && pm.IsDefault)
+                    .ToListAsync();
+
+                foreach (var method in existingMethods)
+                {
+                    method.IsDefault = false;
+                    method.UpdatedAt = DateTime.UtcNow;
+                }
+
+                // Create new payment method
+                var paymentMethod = new PaymentMethod
+                {
+                    ClinicId = clinicId,
+                    UserId = userId,
+                    PaddlePaymentMethodId = webhookData.Data.PaymentMethodId,
+                    CardType = cardDetails.Type,
+                    CardLast4 = cardDetails.Last4,
+                    CardExpiryMonth = cardDetails.ExpiryMonth,
+                    CardExpiryYear = cardDetails.ExpiryYear,
+                    CardholderName = cardDetails.CardholderName,
+                    Type = paymentInfo?.MethodDetails?.Type ?? "card",
+                    IsDefault = true,
+                    IsActive = true,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                _context.PaymentMethods.Add(paymentMethod);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Payment method saved for clinic {ClinicId}", clinicId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error saving payment method for clinic {ClinicId}", clinicId);
+            }
+        }
+
         private async Task HandleSubscriptionCanceled(PaddleWebhookEvent webhookData)
         {
             if (webhookData.Data?.SubscriptionId == null)
@@ -293,12 +412,84 @@ namespace backend.Controllers
 
             if (subscription != null)
             {
-                subscription.Status = SubscriptionStatus.Cancelled;
+                subscription.Status = (int)SubscriptionStatus.Cancelled;
                 subscription.CancelledAt = DateTime.UtcNow;
                 subscription.UpdatedAt = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation("Subscription canceled for clinic {ClinicId}", subscription.ClinicId);
+            }
+        }
+
+        private async Task CreateInvoiceFromWebhook(PaddleWebhookEvent webhookData, Subscription subscription)
+        {
+            try
+            {
+                // Get plan details
+                var plan = await _context.SubscriptionPlans.FindAsync(subscription.PlanId);
+                if (plan == null)
+                {
+                    _logger.LogWarning("Plan not found for subscription {SubscriptionId}", subscription.Id);
+                    return;
+                }
+
+                // Check if invoice already exists
+                var transactionId = webhookData.Data?.Id;
+                var existingInvoice = await _context.Invoices
+                    .FirstOrDefaultAsync(i => i.PaddleTransactionId == transactionId);
+
+                if (existingInvoice != null)
+                {
+                    _logger.LogInformation("Invoice already exists for transaction {TransactionId}", webhookData.Data?.Id);
+                    return;
+                }
+
+                // Determine if this is a trial period payment
+                bool isTrialPeriod = subscription.IsTrialPeriod && subscription.TrialEndDate > DateTime.UtcNow;
+
+                // Calculate amount: $0 for trial, plan price otherwise
+                decimal amount = isTrialPeriod ? 0 : plan.Price;
+                decimal originalPrice = plan.Price;
+
+                // Extract payment details from webhook
+                var paymentInfo = webhookData.Data?.Payments?.FirstOrDefault();
+                decimal taxAmount = 0; // Paddle webhook-dan gələcək
+                decimal discountAmount = 0; // Paddle webhook-dan gələcək
+
+                // Create invoice
+                var invoice = new Invoice
+                {
+                    InvoiceNumber = webhookData.Data?.Id ?? Guid.NewGuid().ToString(),
+                    ClinicId = subscription.ClinicId,
+                    SubscriptionId = subscription.Id,
+                    PlanId = subscription.PlanId,
+                    Status = "Paid",
+                    Amount = amount,
+                    Currency = subscription.Currency,
+                    IsTrialPeriod = isTrialPeriod,
+                    OriginalPrice = originalPrice,
+                    BillingPeriodStart = subscription.StartDate,
+                    BillingPeriodEnd = subscription.EndDate,
+                    PaidAt = DateTime.UtcNow,
+                    DueDate = subscription.StartDate,
+                    PaymentMethod = subscription.PaymentMethod,
+                    PaddleTransactionId = webhookData.Data?.Id,
+                    PaddleSubscriptionId = webhookData.Data?.SubscriptionId,
+                    TaxAmount = taxAmount,
+                    DiscountAmount = discountAmount,
+                    Subtotal = originalPrice,
+                    InvoiceDetailsJson = System.Text.Json.JsonSerializer.Serialize(webhookData),
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                _context.Invoices.Add(invoice);
+
+                _logger.LogInformation("Invoice created for clinic {ClinicId}, amount: {Amount}, isTrialPeriod: {IsTrialPeriod}",
+                    subscription.ClinicId, amount, isTrialPeriod);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating invoice for subscription {SubscriptionId}", subscription.Id);
             }
         }
     }
@@ -326,6 +517,45 @@ namespace backend.Controllers
 
         [System.Text.Json.Serialization.JsonPropertyName("custom_data")]
         public PaddleCustomData? CustomData { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("payment_method_id")]
+        public string? PaymentMethodId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("payments")]
+        public List<PaddlePaymentInfo>? Payments { get; set; }
+    }
+
+    public class PaddlePaymentInfo
+    {
+        [System.Text.Json.Serialization.JsonPropertyName("method_details")]
+        public PaddlePaymentMethodDetails? MethodDetails { get; set; }
+    }
+
+    public class PaddlePaymentMethodDetails
+    {
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string? Type { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("card")]
+        public PaddleCardDetails? Card { get; set; }
+    }
+
+    public class PaddleCardDetails
+    {
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string? Type { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("last4")]
+        public string? Last4 { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("expiry_month")]
+        public int? ExpiryMonth { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("expiry_year")]
+        public int? ExpiryYear { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("cardholder_name")]
+        public string? CardholderName { get; set; }
     }
 
     public class PaddleCustomData

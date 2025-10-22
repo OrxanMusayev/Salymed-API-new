@@ -19,7 +19,7 @@ namespace backend.Models
         /// Abunəliyin statusu
         /// </summary>
         [Required]
-        public SubscriptionStatus Status { get; set; } = SubscriptionStatus.PendingPayment;
+        public int Status { get; set; } = (int)SubscriptionStatus.PendingPayment;
 
         /// <summary>
         /// Abunəliyin başlama tarixi

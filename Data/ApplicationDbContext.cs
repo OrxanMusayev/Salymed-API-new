@@ -17,6 +17,8 @@ namespace backend.Data
         public DbSet<PlanFeature> PlanFeatures { get; set; }
         public DbSet<PlanFeatureMapping> PlanFeatureMappings { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,12 +52,6 @@ namespace backend.Data
                 entity.HasIndex(e => e.Email).IsUnique();
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
                 entity.Property(e => e.Rating).HasPrecision(3, 2); // 0.00 - 5.00
-
-                // Configure relationship with Clinic
-                entity.HasOne(d => d.Clinic)
-                      .WithMany()
-                      .HasForeignKey(d => d.ClinicId)
-                      .OnDelete(DeleteBehavior.SetNull);
             });
 
             // ClinicType configuration
@@ -89,13 +85,13 @@ namespace backend.Data
 
                 // Configure relationship with SubscriptionPlan
                 entity.HasOne(m => m.Plan)
-                      .WithMany(p => p.PlanFeatures)
+                      .WithMany(p => p.PlanFeatureMappings)
                       .HasForeignKey(m => m.PlanId)
                       .OnDelete(DeleteBehavior.Cascade);
 
                 // Configure relationship with PlanFeature
                 entity.HasOne(m => m.Feature)
-                      .WithMany(f => f.PlanMappings)
+                      .WithMany(f => f.PlanFeatureMappings)
                       .HasForeignKey(m => m.FeatureId)
                       .OnDelete(DeleteBehavior.Cascade);
 
@@ -110,22 +106,40 @@ namespace backend.Data
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
                 entity.Property(e => e.AmountPaid).HasPrecision(18, 2);
 
-                // Configure relationship with Clinic
-                entity.HasOne(s => s.Clinic)
-                      .WithMany()
-                      .HasForeignKey(s => s.ClinicId)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                // Configure relationship with SubscriptionPlan
-                entity.HasOne(s => s.Plan)
-                      .WithMany(p => p.Subscriptions)
-                      .HasForeignKey(s => s.PlanId)
-                      .OnDelete(DeleteBehavior.Restrict);
-
                 // Index for better query performance
                 entity.HasIndex(e => e.ClinicId);
                 entity.HasIndex(e => e.PlanId);
                 entity.HasIndex(e => e.Status);
+                entity.HasIndex(e => new { e.ClinicId, e.Status });
+            });
+
+            // PaymentMethod configuration
+            modelBuilder.Entity<PaymentMethod>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+
+                // Index for better query performance
+                entity.HasIndex(e => e.ClinicId);
+                entity.HasIndex(e => e.UserId);
+                entity.HasIndex(e => new { e.ClinicId, e.IsDefault });
+                entity.HasIndex(e => new { e.ClinicId, e.IsActive });
+            });
+
+            // Invoice configuration
+            modelBuilder.Entity<Invoice>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+
+                // Index for better query performance
+                entity.HasIndex(e => e.ClinicId);
+                entity.HasIndex(e => e.SubscriptionId);
+                entity.HasIndex(e => e.PlanId);
+                entity.HasIndex(e => e.Status);
+                entity.HasIndex(e => e.PaddleTransactionId);
+                entity.HasIndex(e => e.InvoiceNumber).IsUnique();
+                entity.HasIndex(e => e.CreatedAt);
                 entity.HasIndex(e => new { e.ClinicId, e.Status });
             });
 
@@ -144,9 +158,9 @@ namespace backend.Data
 
             // Seed subscription plans
             modelBuilder.Entity<SubscriptionPlan>().HasData(
-                new SubscriptionPlan { Id = 1, Name = "Başlanğıc", Description = "Tək həkimli kliniklər üçün", Price = 45.00m, Currency = "USD", Period = BillingPeriod.Monthly, IsActive = true, IsFeatured = false, DisplayOrder = 1, CreatedAt = seedDate },
-                new SubscriptionPlan { Id = 2, Name = "Professional", Description = "3 həkimə qədər olan kliniklər üçün", Price = 75.00m, Currency = "USD", Period = BillingPeriod.Monthly, IsActive = true, IsFeatured = true, DisplayOrder = 2, CreatedAt = seedDate },
-                new SubscriptionPlan { Id = 3, Name = "Premium", Description = "10 həkimə qədər olan kliniklər üçün", Price = 125.00m, Currency = "USD", Period = BillingPeriod.Monthly, IsActive = true, IsFeatured = false, DisplayOrder = 3, CreatedAt = seedDate }
+                new SubscriptionPlan { Id = 1, Name = "Başlanğıc", Description = "Tək həkimli kliniklər üçün", Price = 45.00m, Currency = "USD", Period = 2, IsActive = true, IsFeatured = false, DisplayOrder = 1, CreatedAt = seedDate },
+                new SubscriptionPlan { Id = 2, Name = "Professional", Description = "3 həkimə qədər olan kliniklər üçün", Price = 75.00m, Currency = "USD", Period = 2, IsActive = true, IsFeatured = true, DisplayOrder = 2, CreatedAt = seedDate },
+                new SubscriptionPlan { Id = 3, Name = "Premium", Description = "10 həkimə qədər olan kliniklər üçün", Price = 125.00m, Currency = "USD", Period = 2, IsActive = true, IsFeatured = false, DisplayOrder = 3, CreatedAt = seedDate }
             );
 
             // Seed plan features

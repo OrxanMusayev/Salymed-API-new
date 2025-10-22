@@ -191,7 +191,7 @@ namespace backend.Services
                 WorkingHours = dto.WorkingHours,
                 IsActive = dto.IsActive,
                 AvatarUrl = dto.AvatarUrl,
-                Rating = dto.Rating,
+                Rating = (float)dto.Rating,
                 ClinicId = dto.ClinicId
             };
         }
@@ -241,7 +241,7 @@ namespace backend.Services
                 WorkingHours = dto.WorkingHours,
                 IsActive = dto.IsActive,
                 AvatarUrl = dto.AvatarUrl,
-                Rating = dto.Rating,
+                Rating = (float)dto.Rating,
                 ClinicId = dto.ClinicId
             };
         }

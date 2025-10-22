@@ -26,7 +26,7 @@ namespace backend.Services
             {
                 var plans = await _context.SubscriptionPlans
                     .Where(p => p.IsActive)
-                    .Include(p => p.PlanFeatures)
+                    .Include(p => p.PlanFeatureMappings)
                         .ThenInclude(pf => pf.Feature)
                     .OrderBy(p => p.DisplayOrder)
                     .ToListAsync();
@@ -38,9 +38,9 @@ namespace backend.Services
                     Description = p.Description,
                     Price = p.Price,
                     Currency = p.Currency,
-                    Period = GetPeriodString(p.Period),
+                    Period = GetPeriodString((BillingPeriod)p.Period),
                     IsFeatured = p.IsFeatured,
-                    Features = p.PlanFeatures?
+                    Features = p.PlanFeatureMappings?
                         .Where(pf => pf.Feature != null && pf.Feature.IsActive)
                         .OrderBy(pf => pf.Feature!.DisplayOrder)
                         .Select(pf => new PlanFeatureDto
@@ -77,7 +77,7 @@ namespace backend.Services
             {
                 var plan = await _context.SubscriptionPlans
                     .Where(p => p.IsActive && p.Id == id)
-                    .Include(p => p.PlanFeatures)
+                    .Include(p => p.PlanFeatureMappings)
                         .ThenInclude(pf => pf.Feature)
                     .FirstOrDefaultAsync();
 
@@ -91,9 +91,9 @@ namespace backend.Services
                     Description = plan.Description,
                     Price = plan.Price,
                     Currency = plan.Currency,
-                    Period = GetPeriodString(plan.Period),
+                    Period = GetPeriodString((BillingPeriod)plan.Period),
                     IsFeatured = plan.IsFeatured,
-                    Features = plan.PlanFeatures?
+                    Features = plan.PlanFeatureMappings?
                         .Where(pf => pf.Feature != null && pf.Feature.IsActive)
                         .OrderBy(pf => pf.Feature!.DisplayOrder)
                         .Select(pf => new PlanFeatureDto

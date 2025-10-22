@@ -24,6 +24,10 @@ builder.Services.AddScoped<JwtService>(); // Add JWT service
 builder.Services.Configure<backend.Services.PaddleSettings>(
     builder.Configuration.GetSection("Paddle"));
 
+// Configure Subscription settings
+builder.Services.Configure<backend.Configuration.SubscriptionSettings>(
+    builder.Configuration.GetSection("Subscription"));
+
 // Register Paddle service with HttpClient
 builder.Services.AddHttpClient<backend.Services.IPaddleService, backend.Services.PaddleService>();
 
@@ -59,6 +63,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 
 // Configure form options for file uploads

@@ -33,7 +33,7 @@ namespace backend.Models
         /// Ödəniş dövrü (Həftəlik, Aylıq, İllik)
         /// </summary>
         [Required]
-        public BillingPeriod Period { get; set; } = BillingPeriod.Monthly;
+        public int Period { get; set; } = (int)BillingPeriod.Monthly;
 
         /// <summary>
         /// Plan aktivdir
@@ -56,6 +56,6 @@ namespace backend.Models
 
         // Navigation properties
         public virtual ICollection<Subscription>? Subscriptions { get; set; }
-        public virtual ICollection<PlanFeatureMapping>? PlanFeatures { get; set; }
+        public virtual ICollection<PlanFeatureMapping>? PlanFeatureMappings { get; set; }
     }
 }

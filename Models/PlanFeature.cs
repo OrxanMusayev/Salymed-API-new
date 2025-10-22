@@ -34,6 +34,6 @@ namespace backend.Models
         public DateTime? UpdatedAt { get; set; }
 
         // Navigation properties
-        public virtual ICollection<PlanFeatureMapping>? PlanMappings { get; set; }
+        public virtual ICollection<PlanFeatureMapping>? PlanFeatureMappings { get; set; }
     }
 }

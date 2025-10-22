@@ -10,6 +10,8 @@ namespace backend.DTOs
         public string? PhoneCountryCode { get; set; }
         public string Role { get; set; } = string.Empty;
         public bool IsActive { get; set; }
+        public Guid? ClinicId { get; set; }
+        public string? ClinicName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }

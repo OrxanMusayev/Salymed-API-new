@@ -30,6 +30,23 @@ namespace backend.Controllers
                 return NotFound(new { message = "İstifadəçi tapılmadı" });
             }
 
+            // Get clinic information if user is ClinicAdmin
+            string? clinicName = null;
+            Guid? clinicId = null;
+
+            if (user.Role == "ClinicAdmin")
+            {
+                var clinic = await _context.Clinics
+                    .Where(c => c.OwnerId == user.Id && c.IsActive)
+                    .FirstOrDefaultAsync();
+
+                if (clinic != null)
+                {
+                    clinicId = clinic.Id;
+                    clinicName = clinic.Name;
+                }
+            }
+
             var response = new UserProfileResponseDto
             {
                 Id = user.Id,
@@ -40,6 +57,8 @@ namespace backend.Controllers
                 PhoneCountryCode = user.PhoneCountryCode,
                 Role = user.Role,
                 IsActive = user.IsActive,
+                ClinicId = clinicId,
+                ClinicName = clinicName,
                 CreatedAt = user.CreatedAt,
                 UpdatedAt = user.UpdatedAt
             };
@@ -91,6 +110,23 @@ namespace backend.Controllers
                 throw;
             }
 
+            // Get clinic information if user is ClinicAdmin
+            string? clinicName = null;
+            Guid? clinicId = null;
+
+            if (user.Role == "ClinicAdmin")
+            {
+                var clinic = await _context.Clinics
+                    .Where(c => c.OwnerId == user.Id && c.IsActive)
+                    .FirstOrDefaultAsync();
+
+                if (clinic != null)
+                {
+                    clinicId = clinic.Id;
+                    clinicName = clinic.Name;
+                }
+            }
+
             var response = new UserProfileResponseDto
             {
                 Id = user.Id,
@@ -101,6 +137,8 @@ namespace backend.Controllers
                 PhoneCountryCode = user.PhoneCountryCode,
                 Role = user.Role,
                 IsActive = user.IsActive,
+                ClinicId = clinicId,
+                ClinicName = clinicName,
                 CreatedAt = user.CreatedAt,
                 UpdatedAt = user.UpdatedAt
             };

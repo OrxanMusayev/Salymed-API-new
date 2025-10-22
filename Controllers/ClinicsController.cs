@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using backend.Data;
 using backend.Models;
 
@@ -7,7 +8,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ClinicsController : ControllerBase
+    public class ClinicsController : BaseApiController
     {
         private readonly ApplicationDbContext _context;
 
@@ -133,47 +134,52 @@ namespace backend.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/clinics/info - Get current clinic info (assumes single clinic setup)
+        // GET: api/clinics/info - Get current clinic info from JWT token
+        [Authorize]
         [HttpGet("info")]
         public async Task<ActionResult<Clinic>> GetClinicInfo()
         {
+            // Get clinic ID from JWT token
+            var clinicId = GetCurrentClinicId();
+
+            if (!clinicId.HasValue)
+            {
+                return BadRequest(new { message = "User has no associated clinic. Please contact support." });
+            }
+
             var clinic = await _context.Clinics
-                .Where(c => c.IsActive)
+                .Where(c => c.Id == clinicId.Value && c.IsActive)
+                .Include(c => c.Owner)
                 .FirstOrDefaultAsync();
 
             if (clinic == null)
             {
-                // Create a default clinic if none exists
-                clinic = new Clinic
-                {
-                    Name = "Salymed Tibb Mərkəzi",
-                    Type = "general",
-                    PhoneNumber = "125550102",
-                    PhoneCountryCode = "+994",
-                    Email = "info@salymed.az",
-                    Address = "Nizami küç. 123, Yasamal rayonu",
-                    City = "Bakı",
-                    Website = "https://www.salymed.az"
-                };
-
-                _context.Clinics.Add(clinic);
-                await _context.SaveChangesAsync();
+                return NotFound(new { message = "Clinic not found or inactive" });
             }
 
             return clinic;
         }
 
-        // PUT: api/clinics/info - Update current clinic info
+        // PUT: api/clinics/info - Update current clinic info from JWT token
+        [Authorize]
         [HttpPut("info")]
         public async Task<ActionResult<Clinic>> UpdateClinicInfo(UpdateClinicDto clinicDto)
         {
+            // Get clinic ID from JWT token
+            var clinicId = GetCurrentClinicId();
+
+            if (!clinicId.HasValue)
+            {
+                return BadRequest(new { message = "User has no associated clinic. Please contact support." });
+            }
+
             var clinic = await _context.Clinics
-                .Where(c => c.IsActive)
+                .Where(c => c.Id == clinicId.Value && c.IsActive)
                 .FirstOrDefaultAsync();
 
             if (clinic == null)
             {
-                return NotFound("Klinik məlumatları tapılmadı");
+                return NotFound(new { message = "Clinic not found or inactive" });
             }
 
             clinic.Name = clinicDto.Name;
