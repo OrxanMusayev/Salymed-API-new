@@ -19,6 +19,7 @@ builder.Services.AddScoped<backend.Repositories.Interfaces.IDoctorRepository, ba
 builder.Services.AddScoped<backend.Services.Interfaces.IDoctorService, backend.Services.DoctorService>();
 builder.Services.AddScoped<backend.Services.ISubscriptionPlanService, backend.Services.SubscriptionPlanService>();
 builder.Services.AddScoped<JwtService>(); // Add JWT service
+builder.Services.AddSingleton<backend.Services.ILocalizationService, backend.Services.LocalizationService>(); // Add Localization service
 
 // Configure Paddle settings
 builder.Services.Configure<backend.Services.PaddleSettings>(

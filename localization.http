@@ -1,0 +1,117 @@
+### Localization API Testing
+### Test endpoints for the backend localization system
+
+@baseUrl = http://localhost:5000
+@apiUrl = {{baseUrl}}/api/localization
+
+### 1. Get Supported Languages
+GET {{apiUrl}}/languages
+Content-Type: application/json
+
+###
+
+### 2. Get All Translations (Auto-detect from Accept-Language header - Azerbaijani)
+GET {{apiUrl}}
+Accept-Language: az-AZ,az;q=0.9,en;q=0.8
+Content-Type: application/json
+
+###
+
+### 3. Get All Translations (Auto-detect from Accept-Language header - Turkish)
+GET {{apiUrl}}
+Accept-Language: tr-TR,tr;q=0.9,en;q=0.8
+Content-Type: application/json
+
+###
+
+### 4. Get All Translations (Auto-detect from Accept-Language header - English)
+GET {{apiUrl}}
+Accept-Language: en-US,en;q=0.9
+Content-Type: application/json
+
+###
+
+### 5. Get Azerbaijani Translations (Query Parameter)
+GET {{apiUrl}}?lang=az
+Content-Type: application/json
+
+###
+
+### 6. Get English Translations (Query Parameter)
+GET {{apiUrl}}?lang=en
+Content-Type: application/json
+
+###
+
+### 7. Get Turkish Translations (Query Parameter)
+GET {{apiUrl}}?lang=tr
+Content-Type: application/json
+
+###
+
+### 8. Get Azerbaijani Translations (Path Parameter)
+GET {{apiUrl}}/az
+Content-Type: application/json
+
+###
+
+### 9. Get English Translations (Path Parameter)
+GET {{apiUrl}}/en
+Content-Type: application/json
+
+###
+
+### 10. Get Turkish Translations (Path Parameter)
+GET {{apiUrl}}/tr
+Content-Type: application/json
+
+###
+
+### 11. Get Specific Translation - Azerbaijani (common.welcome)
+GET {{apiUrl}}/az/common.welcome
+Content-Type: application/json
+
+###
+
+### 12. Get Specific Translation - English (auth.login)
+GET {{apiUrl}}/en/auth.login
+Content-Type: application/json
+
+###
+
+### 13. Get Specific Translation - Turkish (subscription.title)
+GET {{apiUrl}}/tr/subscription.title
+Content-Type: application/json
+
+###
+
+### 14. Get Specific Translation - Using Dash Notation (common-save)
+GET {{apiUrl}}/az/common-save
+Content-Type: application/json
+
+###
+
+### 15. Get Specific Translation - Nested Key (validation.required)
+GET {{apiUrl}}/en/validation.required
+Content-Type: application/json
+
+###
+
+### 16. Test Unsupported Language (Should fallback to English)
+GET {{apiUrl}}/de
+Content-Type: application/json
+
+###
+
+### 17. Test Invalid Translation Key (Should return 404)
+GET {{apiUrl}}/en/invalid.key.that.does.not.exist
+Content-Type: application/json
+
+###
+
+### 18. Get All Translations with Complex Accept-Language Header
+GET {{apiUrl}}
+Accept-Language: az-AZ,az;q=0.9,tr-TR;q=0.8,tr;q=0.7,en-US;q=0.6,en;q=0.5
+Content-Type: application/json
+
+###
