@@ -22,5 +22,8 @@ namespace backend.DTOs
 
         [StringLength(10)]
         public string? PhoneCountryCode { get; set; }
+
+        [StringLength(5)]
+        public string? PreferredLanguage { get; set; }
     }
 }

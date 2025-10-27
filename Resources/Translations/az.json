@@ -68,10 +68,10 @@
     "active_features": "Aktiv Xüsusiyyətlər",
     "payment_method": "Ödəmə Yöntəmi",
     "change": "Dəyişdir",
-    "no_payment_method": "Ödəmə metodu əlavə edilməyib",
-    "add_payment_method": "Ödəmə Metodu Əlavə Et",
-    "next_payment": "Növbəti Ödəmə",
-    "billing_history": "Ödəmə Tarixçəsi",
+    "no_payment_method": "Ödəniş üsulu əlavə edilməyib",
+    "add_payment_method": "Əlavə et",
+    "next_payment": "Növbəti Ödəniş",
+    "billing_history": "Faktura Tarixçəsi",
     "download_all": "Hamısını Yüklə",
     "invoice": "Faktura",
     "date": "Tarix",
@@ -85,7 +85,34 @@
     "available_plans": "Mövcud Planlar",
     "per_month": "ay",
     "per_year": "il",
-    "save_payment_method": "Ödəmə Metodunu Saxla"
+    "save_payment_method": "Ödəmə Metodunu Saxla",
+    "card_details": "Kart Məlumatları",
+    "expiry": "Bitmə tarixi",
+    "default": "Defolt",
+    "add_new_card": "Yeni Kart Əlavə et",
+    "card_number": "Kart Nömrəsi",
+    "card_number_placeholder": "1234 5678 9012 3456",
+    "expiry_date": "Bitmə tarixi",
+    "expiry_placeholder": "AA/İİ",
+    "cvv": "CVV",
+    "cvv_placeholder": "123",
+    "card_holder": "Kart Sahibi",
+    "card_holder_placeholder": "Ad Soyad",
+    "status_unknown": "Naməlum",
+    "period_month": "ay",
+    "period_year": "il",
+    "month_january": "Yanvar",
+    "month_february": "Fevral",
+    "month_march": "Mart",
+    "month_april": "Aprel",
+    "month_may": "May",
+    "month_june": "İyun",
+    "month_july": "İyul",
+    "month_august": "Avqust",
+    "month_september": "Sentyabr",
+    "month_october": "Oktyabr",
+    "month_november": "Noyabr",
+    "month_december": "Dekabr"
   },
   "clinic": {
     "title": "Klinika İdarəetməsi",
@@ -259,5 +286,288 @@
     "updateSuccess": "Məlumatlar uğurla yeniləndi",
     "updateError": "Məlumatları yeniləyərkən xəta baş verdi",
     "confirmDelete": "Silmək istədiyinizdən əminsiniz?"
+  },
+  "dashboard": {
+    "title": "İdarə Paneli",
+    "refresh": "Yenilə",
+    "statistics": "İstatistiklər",
+    "total_appointments": "Ümumi Görüşlər",
+    "automatic_appointment": "Avtomatik Görüş",
+    "total_patients": "Ümumi Xəstələr",
+    "today_appointments": "Bugünkü Görüşlər",
+    "weekly_appointments": "Həftəlik Görüşlər",
+    "monthly_revenue": "Aylıq Gəlir",
+    "active_doctors": "Aktiv Həkimlər",
+    "manual_appointment": "Manual Görüş",
+    "weekly_trend": "Həftəlik Görüş Trendi",
+    "automatic": "Avtomatik",
+    "manual": "Manual",
+    "recent_appointments": "Son Görüşlər",
+    "status_confirmed": "Təsdiqləndi",
+    "status_pending": "Gözləyir",
+    "status_cancelled": "Ləğv edildi",
+    "welcome_title": "Xoş Gəldiniz!",
+    "welcome_message": "Plan seçərək funksionallıqlardan yararlanmağa başlaya bilərsiniz",
+    "subscribe_button": "Abunə Ol",
+    "last_30_days_analysis": "Son 30 Günün Analizi",
+    "chart_filter_appointments": "Görüşlər",
+    "chart_filter_revenue": "Gəlir",
+    "chart_filter_patients": "Xəstələr",
+    "view_all": "Hamısını gör",
+    "calendar": "Təqvim",
+    "weekday_monday": "B.E",
+    "weekday_tuesday": "Ç.A",
+    "weekday_wednesday": "Ç",
+    "weekday_thursday": "C.A",
+    "weekday_friday": "C",
+    "weekday_saturday": "Ş",
+    "weekday_sunday": "B"
+  },
+  "automation": {
+    "whatsapp_setup": {
+      "title": "Klinik WhatsApp Qurulumu",
+      "use_existing": "Mövcud nömrədən istifadə et",
+      "add_new": "Yeni WhatsApp nömrəsi əlavə et",
+      "phone_placeholder": "Telefon nömrəsi",
+      "verifying": "Yoxlanır...",
+      "verify_button": "WhatsApp-ı Yoxla"
+    },
+    "status": {
+      "connected": "Bağlandı",
+      "verifying": "Yoxlanır",
+      "not_connected": "Bağlanmayıb"
+    },
+    "doctor_management": {
+      "title": "Həkim WhatsApp İdarəetməsi",
+      "add_all": "Hamısını əlavə et",
+      "search_placeholder": "Həkim axtar...",
+      "phone_placeholder": "Telefon nömrəsi",
+      "connect": "Bağla",
+      "disconnect": "Ləğv et"
+    },
+    "features": {
+      "title": "Avtomatlaşdırma Xüsusiyyətləri",
+      "appointment_confirmations": {
+        "title": "Təyinat Təsdiqləri",
+        "description": "Avtomatik təyinat təsdiqi mesajları"
+      },
+      "reminder_24h": {
+        "title": "24 Saat Xatırlatma",
+        "description": "Təyinatdan 24 saat əvvəl xatırlatma"
+      },
+      "reminder_1h": {
+        "title": "1 Saat Xatırlatma",
+        "description": "Təyinatdan 1 saat əvvəl xatırlatma"
+      },
+      "rescheduling": {
+        "title": "Vaxt Dəyişikliyi Sorğuları",
+        "description": "Avtomatik vaxt dəyişikliyi təklifi"
+      },
+      "noshow_followup": {
+        "title": "Gəlməyənlərə Təqib",
+        "description": "Təyinata gəlməyən xəstələrə mesaj"
+      },
+      "welcome_messages": {
+        "title": "Xoş Gəlmisiniz Mesajları",
+        "description": "Yeni xəstələr üçün qarşılama mesajı"
+      },
+      "availability_updates": {
+        "title": "Əlçatanlıq Yeniləmələri",
+        "description": "Həkim mövcudluğu dəyişikliklərini bildir"
+      }
+    },
+    "integration": {
+      "title": "Veb Sayt İnteqrasiyası",
+      "active": "Aktiv",
+      "inactive": "Qeyri-aktiv",
+      "enable_text": "Veb sayt rezervasyon sistemi ilə inteqrasiyanı aktivləşdir",
+      "api_key": "API Açar",
+      "integration_code": "İnteqrasiya Kodu",
+      "copy_code": "Kodu Kopyala",
+      "documentation": "Sənədlər",
+      "test": "Test Et"
+    },
+    "settings": {
+      "title": "Ümumi Parametrlər",
+      "business_hours": "İş Saatları",
+      "message_language": "Mesaj Dili"
+    },
+    "alerts": {
+      "phone_required": "Əvvəl telefon nömrəsi daxil edin",
+      "test_message_sent": "Test mesaj göndərildi",
+      "api_key_copied": "API key kopyalandı!",
+      "integration_code_copied": "İnteqrasiya kodu kopyalandı!",
+      "downloading_docs": "Sənədlər yüklənir...",
+      "testing_integration": "İnteqrasiya test edilir...",
+      "automation_started": "Avtomatlaşdırma başladı!",
+      "complete_requirements": "Bütün tələbləri yerinə yetirin!",
+      "configuration_saved": "Konfiqurasiya saxlanıldı!"
+    },
+    "modal": {
+      "title": "API İnteqrasiya Sənədləri",
+      "widget_title": "1. Rezervasyon Widget-i",
+      "api_endpoints_title": "2. REST API Endpoints",
+      "endpoint_get": "Bütün təyinatları əldə et",
+      "endpoint_post": "Yeni təyinat yarat",
+      "endpoint_put": "Təyinatı yenilə",
+      "webhook_title": "3. Webhook Events",
+      "webhook_created": "Yeni təyinat yaradıldı",
+      "webhook_updated": "Təyinat yeniləndi",
+      "webhook_cancelled": "Təyinat ləğv edildi",
+      "download_pdf": "PDF Yüklə"
+    }
+  },
+  "chatbot": {
+    "header": {
+      "title": "Chatbot Operatoru",
+      "description": "Klinik WhatsApp nömrəsinə yazan xəstələr üçün avtomatik cavab sistemi",
+      "test_button": "Test Et",
+      "save_button": "Saxla"
+    },
+    "basic_settings": {
+      "title": "Əsas Ayarlar",
+      "chatbot_active": "Chatbot Aktiv",
+      "response_delay": "Cavab Gecikmesi (saniyə)",
+      "language": "Dil"
+    },
+    "working_hours": {
+      "title": "İş Saatları",
+      "enable_restriction": "İş Saatları Məhdudiyyəti",
+      "start_time": "Başlama Vaxtı",
+      "end_time": "Bitmə Vaxtı"
+    },
+    "auto_responses": {
+      "title": "Avtomatik Cavab Növləri",
+      "keywords": "Açar sözlər",
+      "response": "Cavab"
+    },
+    "templates": {
+      "title": "Cavab Şablonları",
+      "new_template": "Yeni Şablon",
+      "keyword": "Açar Söz",
+      "keyword_placeholder": "məs: salam, randevu",
+      "category": "Kateqoriya",
+      "category_greeting": "Salamlama",
+      "category_appointment": "Randevu",
+      "category_pricing": "Qiymət",
+      "category_info": "Məlumat",
+      "response_text": "Cavab Mətni",
+      "response_placeholder": "Cavab mətnini daxil edin...",
+      "save": "Saxla",
+      "cancel": "İmtina",
+      "edit": "Redaktə et",
+      "delete": "Sil"
+    }
+  },
+  "home": {
+    "hero": {
+      "title_part1": "Sağlamlıq İdarəetməsi",
+      "title_part2": "Yenidən Müəyyənləşdirilir",
+      "description": "Müasir və təhlükəsiz sağlamlıq idarəetmə sistemi ilə klinikalarınızı daha səmərəli şəkildə idarə edin. Xəstə izləməsindən görüş təyinatına qədər bütün proseslərinizi rəqəmsallaşdırın.",
+      "start_now": "Dərhal Başla",
+      "learn_more": "Ətraflı Məlumat"
+    },
+    "stats": {
+      "active_patients": "Aktiv Xəstə",
+      "today_appointments": "Bu Günkü Görüş"
+    },
+    "features": {
+      "title": "Xüsusiyyətlər",
+      "subtitle": "Sağlamlıq idarəetməsi üçün ehtiyacınız olan hər şey",
+      "doctor_management": {
+        "title": "Həkim İdarəetməsi",
+        "description": "Həkimlərinizi, ixtisas sahələrini və iş saatlarını asanlıqla idarə edin."
+      },
+      "appointment_system": {
+        "title": "Görüş Sistemi",
+        "description": "Avtomatik görüş planlaşdırması və xəstə bildirişləri ilə səmərəli görüş idarəetməsi."
+      },
+      "analytics": {
+        "title": "Analitik Hesabatlar",
+        "description": "Ətraflı hesabatlar və təhlillər ilə müəssisənizin performansını izləyin."
+      },
+      "security": {
+        "title": "Təhlükəsiz Sistem",
+        "description": "End-to-end şifrələmə və təhlükəsizlik protokolları ilə xəstə məlumatlarınızı qoruyun."
+      },
+      "mobile_friendly": {
+        "title": "Mobil Uyğun",
+        "description": "Hər yerdən giriş əldə edin. Mobil cihazlar üçün optimallaşdırılmış interfeys."
+      },
+      "support": {
+        "title": "7/24 Dəstək",
+        "description": "Mütəxəssis komandamız hər zaman yanınızdadır. Fasiləsiz texniki dəstək xidməti."
+      }
+    },
+    "cta": {
+      "title": "Dərhal Başlayın",
+      "description": "Sağlamlıq idarəetməsində yeni dövr başlayır. İndi qoşulun və fərqi yaşayın.",
+      "button": "Pulsuz Sınayın"
+    },
+    "footer": {
+      "brand_description": "Sağlamlıq idarəetməsində etibarlı həlliniz",
+      "product": "Məhsul",
+      "features": "Xüsusiyyətlər",
+      "pricing": "Qiymətləndirmə",
+      "security": "Təhlükəsizlik",
+      "support": "Dəstək",
+      "help_center": "Yardım Mərkəzi",
+      "contact": "Əlaqə",
+      "api_docs": "API Sənədləri",
+      "company": "Şirkət",
+      "about": "Haqqımızda",
+      "blog": "Bloq",
+      "careers": "Karyera",
+      "copyright": "© 2024 Salymed. Bütün hüquqlar qorunur."
+    }
+  },
+  "pricing": {
+    "header": {
+      "title": "Klinikalar üçün 7/24 İşləyən Süni İntellekt Köməkçisi",
+      "description": "Ehtiyacınıza ən uyğun planı seçin və klinikinizi rəqəmsal transformasiya ilə gücləndirin"
+    },
+    "period": {
+      "month": "ay",
+      "year": "il",
+      "week": "həftə"
+    },
+    "plan": {
+      "button": "İlk 1 Ay Pulsuz Başla"
+    },
+    "error": {
+      "retry": "Yenidən Cəhd Et"
+    },
+    "faq": {
+      "title": "Tez-tez Verilən Suallar"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Bizimlə Əlaqə",
+      "description": "Salymed AI haqqında daha ətraflı məlumat almaq və ya Enterprise həllərimiz üçün bizimlə əlaqə saxlayın. Mütəxəssis komandamız sizə kömək etməyə hazırdır."
+    },
+    "form": {
+      "title": "Mesaj Göndərin",
+      "subtitle": "Sizə ən qısa zamanda cavab verəcəyik",
+      "name": "Ad Soyad",
+      "name_placeholder": "Adınızı və soyadınızı daxil edin",
+      "email": "E-poçt",
+      "email_placeholder": "ornek@email.com",
+      "phone": "Telefon",
+      "phone_placeholder": "+994 XX XXX XX XX",
+      "company": "Şirkət/Klinika",
+      "company_placeholder": "Şirkət adı",
+      "message": "Mesajınız",
+      "message_placeholder": "Mesajınızı buraya yazın...",
+      "submit": "Göndər",
+      "success_message": "Mesajınız alındı! Ən qısa müddətdə sizə qayıdacağıq."
+    },
+    "info": {
+      "email": "E-poçt",
+      "phone": "Telefon",
+      "address": "Ünvan",
+      "working_hours": "İş Saatları",
+      "social_media": "Sosial Şəbəkələr"
+    }
   }
 }

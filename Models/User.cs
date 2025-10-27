@@ -33,9 +33,12 @@ namespace backend.Models
         [Required]
         [StringLength(50)]
         public string Role { get; set; } = "User";
-        
+
+        [StringLength(5)]
+        public string PreferredLanguage { get; set; } = "az";
+
         public bool IsActive { get; set; } = true;
-        
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         
         public DateTime? UpdatedAt { get; set; }

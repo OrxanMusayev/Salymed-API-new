@@ -146,14 +146,14 @@ namespace backend.Data
             // Seed initial clinic types
             var seedDate = new DateTime(2025, 10, 11, 0, 0, 0, DateTimeKind.Utc);
             modelBuilder.Entity<ClinicType>().HasData(
-                new ClinicType { Id = 1, Name = "Xüsusi Klinika", Description = "Özəl sağlamlıq xidmətləri göstərən klinika", CreatedAt = seedDate },
-                new ClinicType { Id = 2, Name = "Dövlət Klinikası", Description = "Dövlət tərəfindən idarə olunan sağlamlıq müəssisəsi", CreatedAt = seedDate },
-                new ClinicType { Id = 3, Name = "Poliklinika", Description = "Ümumi sağlamlıq xidmətləri göstərən müəssisə", CreatedAt = seedDate },
-                new ClinicType { Id = 4, Name = "Diş Klinikası", Description = "Diş sağlamlığı xidmətləri", CreatedAt = seedDate },
-                new ClinicType { Id = 5, Name = "Gözəllik Mərkəzi", Description = "Estetik və gözəllik xidmətləri", CreatedAt = seedDate },
-                new ClinicType { Id = 6, Name = "Laboratoriya", Description = "Tibbi test və analiz xidmətləri", CreatedAt = seedDate },
-                new ClinicType { Id = 7, Name = "Xəstəxana", Description = "Yataqlı müalicə müəssisəsi", CreatedAt = seedDate },
-                new ClinicType { Id = 8, Name = "Digər", Description = "Digər sağlamlıq xidmətləri", CreatedAt = seedDate }
+                new ClinicType { Id = 1, Name = "Xüsusi Klinika", TranslationKey = "clinic_types.private_clinic", Description = "Özəl sağlamlıq xidmətləri göstərən klinika", CreatedAt = seedDate },
+                new ClinicType { Id = 2, Name = "Dövlət Klinikası", TranslationKey = "clinic_types.public_clinic", Description = "Dövlət tərəfindən idarə olunan sağlamlıq müəssisəsi", CreatedAt = seedDate },
+                new ClinicType { Id = 3, Name = "Poliklinika", TranslationKey = "clinic_types.polyclinic", Description = "Ümumi sağlamlıq xidmətləri göstərən müəssisə", CreatedAt = seedDate },
+                new ClinicType { Id = 4, Name = "Diş Klinikası", TranslationKey = "clinic_types.dental_clinic", Description = "Diş sağlamlığı xidmətləri", CreatedAt = seedDate },
+                new ClinicType { Id = 5, Name = "Gözəllik Mərkəzi", TranslationKey = "clinic_types.beauty_center", Description = "Estetik və gözəllik xidmətləri", CreatedAt = seedDate },
+                new ClinicType { Id = 6, Name = "Laboratoriya", TranslationKey = "clinic_types.laboratory", Description = "Tibbi test və analiz xidmətləri", CreatedAt = seedDate },
+                new ClinicType { Id = 7, Name = "Xəstəxana", TranslationKey = "clinic_types.hospital", Description = "Yataqlı müalicə müəssisəsi", CreatedAt = seedDate },
+                new ClinicType { Id = 8, Name = "Digər", TranslationKey = "clinic_types.other", Description = "Digər sağlamlıq xidmətləri", CreatedAt = seedDate }
             );
 
             // Seed subscription plans

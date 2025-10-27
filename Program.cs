@@ -145,6 +145,32 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Apply PreferredLanguage migration if needed
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    try
+    {
+        // Check if PreferredLanguage column exists, if not add it
+        context.Database.ExecuteSqlRaw(@"
+            IF NOT EXISTS (
+                SELECT * FROM sys.columns
+                WHERE object_id = OBJECT_ID(N'[dbo].[Users]')
+                AND name = 'PreferredLanguage'
+            )
+            BEGIN
+                ALTER TABLE [dbo].[Users]
+                ADD PreferredLanguage NVARCHAR(5) NOT NULL DEFAULT 'az';
+            END
+        ");
+        Console.WriteLine("✅ PreferredLanguage column migration completed");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"⚠️ PreferredLanguage migration warning: {ex.Message}");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

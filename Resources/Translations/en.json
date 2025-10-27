@@ -16,7 +16,18 @@
     "submit": "Submit",
     "close": "Close",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "retry": "Retry",
+    "or": "or",
+    "max": "Max",
+    "select": "Select",
+    "update": "Update",
+    "updating": "Updating...",
+    "enter_value": "Enter value",
+    "email_required": "Email is required",
+    "email_invalid": "Enter a valid email",
+    "phone_required": "Phone is required",
+    "phone_invalid": "Only numbers"
   },
   "auth": {
     "login": "Login",
@@ -54,8 +65,48 @@
     "active_plan": "Active Plan",
     "change_plan": "Change Plan",
     "payment_method": "Payment Method",
-    "change_card": "Change",
-    "active_features": "Active Features"
+    "change": "Change",
+    "active_features": "Active Features",
+    "no_payment_method": "No payment method added",
+    "add_payment_method": "Add Payment Method",
+    "next_payment": "Next Payment",
+    "billing_history": "Billing History",
+    "download_all": "Download All",
+    "date": "Date",
+    "plan": "Plan",
+    "amount": "Amount",
+    "status": "Status",
+    "invoice": "Invoice",
+    "card_details": "Card Details",
+    "expiry": "Expiry",
+    "default": "Default",
+    "add_new_card": "Add New Card",
+    "card_number": "Card Number",
+    "card_number_placeholder": "1234 5678 9012 3456",
+    "expiry_date": "Expiry Date",
+    "expiry_placeholder": "MM/YY",
+    "cvv": "CVV",
+    "cvv_placeholder": "123",
+    "card_holder": "Cardholder Name",
+    "card_holder_placeholder": "John Doe",
+    "status_paid": "Paid",
+    "status_failed": "Failed",
+    "status_pending": "Pending",
+    "status_unknown": "Unknown",
+    "period_month": "month",
+    "period_year": "year",
+    "month_january": "January",
+    "month_february": "February",
+    "month_march": "March",
+    "month_april": "April",
+    "month_may": "May",
+    "month_june": "June",
+    "month_july": "July",
+    "month_august": "August",
+    "month_september": "September",
+    "month_october": "October",
+    "month_november": "November",
+    "month_december": "December"
   },
   "clinic": {
     "title": "Clinic Management",
@@ -229,5 +280,288 @@
     "updateSuccess": "Data updated successfully",
     "updateError": "An error occurred while updating data",
     "confirmDelete": "Are you sure you want to delete?"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "refresh": "Refresh",
+    "statistics": "Statistics",
+    "total_appointments": "Total Appointments",
+    "automatic_appointment": "Automatic Appointment",
+    "total_patients": "Total Patients",
+    "today_appointments": "Today's Appointments",
+    "weekly_appointments": "Weekly Appointments",
+    "monthly_revenue": "Monthly Revenue",
+    "active_doctors": "Active Doctors",
+    "manual_appointment": "Manual Appointment",
+    "weekly_trend": "Weekly Appointment Trend",
+    "automatic": "Automatic",
+    "manual": "Manual",
+    "recent_appointments": "Recent Appointments",
+    "status_confirmed": "Confirmed",
+    "status_pending": "Pending",
+    "status_cancelled": "Cancelled",
+    "welcome_title": "Welcome!",
+    "welcome_message": "You can start using the features by selecting a plan",
+    "subscribe_button": "Subscribe",
+    "last_30_days_analysis": "Last 30 Days Analysis",
+    "chart_filter_appointments": "Appointments",
+    "chart_filter_revenue": "Revenue",
+    "chart_filter_patients": "Patients",
+    "view_all": "View All",
+    "calendar": "Calendar",
+    "weekday_monday": "Mon",
+    "weekday_tuesday": "Tue",
+    "weekday_wednesday": "Wed",
+    "weekday_thursday": "Thu",
+    "weekday_friday": "Fri",
+    "weekday_saturday": "Sat",
+    "weekday_sunday": "Sun"
+  },
+  "automation": {
+    "whatsapp_setup": {
+      "title": "Clinic WhatsApp Setup",
+      "use_existing": "Use existing number",
+      "add_new": "Add new WhatsApp number",
+      "phone_placeholder": "Phone number",
+      "verifying": "Verifying...",
+      "verify_button": "Verify WhatsApp"
+    },
+    "status": {
+      "connected": "Connected",
+      "verifying": "Verifying",
+      "not_connected": "Not Connected"
+    },
+    "doctor_management": {
+      "title": "Doctor WhatsApp Management",
+      "add_all": "Add All",
+      "search_placeholder": "Search doctor...",
+      "phone_placeholder": "Phone number",
+      "connect": "Connect",
+      "disconnect": "Disconnect"
+    },
+    "features": {
+      "title": "Automation Features",
+      "appointment_confirmations": {
+        "title": "Appointment Confirmations",
+        "description": "Automatic appointment confirmation messages"
+      },
+      "reminder_24h": {
+        "title": "24 Hour Reminder",
+        "description": "Reminder 24 hours before appointment"
+      },
+      "reminder_1h": {
+        "title": "1 Hour Reminder",
+        "description": "Reminder 1 hour before appointment"
+      },
+      "rescheduling": {
+        "title": "Rescheduling Requests",
+        "description": "Automatic rescheduling offer"
+      },
+      "noshow_followup": {
+        "title": "No-Show Follow-ups",
+        "description": "Messages to patients who didn't show"
+      },
+      "welcome_messages": {
+        "title": "Welcome Messages",
+        "description": "Greeting message for new patients"
+      },
+      "availability_updates": {
+        "title": "Availability Updates",
+        "description": "Notify doctor availability changes"
+      }
+    },
+    "integration": {
+      "title": "Website Integration",
+      "active": "Active",
+      "inactive": "Inactive",
+      "enable_text": "Enable integration with website booking system",
+      "api_key": "API Key",
+      "integration_code": "Integration Code",
+      "copy_code": "Copy Code",
+      "documentation": "Documentation",
+      "test": "Test"
+    },
+    "settings": {
+      "title": "General Settings",
+      "business_hours": "Business Hours",
+      "message_language": "Message Language"
+    },
+    "alerts": {
+      "phone_required": "Please enter phone number first",
+      "test_message_sent": "Test message sent",
+      "api_key_copied": "API key copied!",
+      "integration_code_copied": "Integration code copied!",
+      "downloading_docs": "Downloading documentation...",
+      "testing_integration": "Testing integration...",
+      "automation_started": "Automation started!",
+      "complete_requirements": "Complete all requirements!",
+      "configuration_saved": "Configuration saved!"
+    },
+    "modal": {
+      "title": "API Integration Documentation",
+      "widget_title": "1. Booking Widget",
+      "api_endpoints_title": "2. REST API Endpoints",
+      "endpoint_get": "Get all appointments",
+      "endpoint_post": "Create new appointment",
+      "endpoint_put": "Update appointment",
+      "webhook_title": "3. Webhook Events",
+      "webhook_created": "New appointment created",
+      "webhook_updated": "Appointment updated",
+      "webhook_cancelled": "Appointment cancelled",
+      "download_pdf": "Download PDF"
+    }
+  },
+  "chatbot": {
+    "header": {
+      "title": "Chatbot Operator",
+      "description": "Automatic response system for patients contacting clinic WhatsApp",
+      "test_button": "Test",
+      "save_button": "Save"
+    },
+    "basic_settings": {
+      "title": "Basic Settings",
+      "chatbot_active": "Chatbot Active",
+      "response_delay": "Response Delay (seconds)",
+      "language": "Language"
+    },
+    "working_hours": {
+      "title": "Working Hours",
+      "enable_restriction": "Enable Working Hours Restriction",
+      "start_time": "Start Time",
+      "end_time": "End Time"
+    },
+    "auto_responses": {
+      "title": "Auto Response Types",
+      "keywords": "Keywords",
+      "response": "Response"
+    },
+    "templates": {
+      "title": "Response Templates",
+      "new_template": "New Template",
+      "keyword": "Keyword",
+      "keyword_placeholder": "e.g: hello, appointment",
+      "category": "Category",
+      "category_greeting": "Greeting",
+      "category_appointment": "Appointment",
+      "category_pricing": "Pricing",
+      "category_info": "Information",
+      "response_text": "Response Text",
+      "response_placeholder": "Enter response text...",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "home": {
+    "hero": {
+      "title_part1": "Healthcare Management",
+      "title_part2": "Redefined",
+      "description": "Manage your clinics more efficiently with a modern and secure healthcare management system. Digitize all your processes from patient tracking to appointment scheduling.",
+      "start_now": "Start Now",
+      "learn_more": "Learn More"
+    },
+    "stats": {
+      "active_patients": "Active Patients",
+      "today_appointments": "Today's Appointments"
+    },
+    "features": {
+      "title": "Features",
+      "subtitle": "Everything you need for healthcare management",
+      "doctor_management": {
+        "title": "Doctor Management",
+        "description": "Easily manage your doctors, specialties, and working hours."
+      },
+      "appointment_system": {
+        "title": "Appointment System",
+        "description": "Efficient appointment management with automatic scheduling and patient notifications."
+      },
+      "analytics": {
+        "title": "Analytics Reports",
+        "description": "Track your organization's performance with detailed reports and analytics."
+      },
+      "security": {
+        "title": "Secure System",
+        "description": "Protect your patient data with end-to-end encryption and security protocols."
+      },
+      "mobile_friendly": {
+        "title": "Mobile Friendly",
+        "description": "Access from anywhere. Interface optimized for mobile devices."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Our expert team is always with you. Uninterrupted technical support service."
+      }
+    },
+    "cta": {
+      "title": "Start Now",
+      "description": "A new era begins in healthcare management. Join now and experience the difference.",
+      "button": "Try for Free"
+    },
+    "footer": {
+      "brand_description": "Your trusted solution in healthcare management",
+      "product": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "security": "Security",
+      "support": "Support",
+      "help_center": "Help Center",
+      "contact": "Contact",
+      "api_docs": "API Documentation",
+      "company": "Company",
+      "about": "About Us",
+      "blog": "Blog",
+      "careers": "Careers",
+      "copyright": "© 2024 Salymed. All rights reserved."
+    }
+  },
+  "pricing": {
+    "header": {
+      "title": "24/7 AI Assistant for Clinics",
+      "description": "Choose the plan that best suits your needs and empower your clinic with digital transformation"
+    },
+    "period": {
+      "month": "month",
+      "year": "year",
+      "week": "week"
+    },
+    "plan": {
+      "button": "Start First Month Free"
+    },
+    "error": {
+      "retry": "Try Again"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Contact Us",
+      "description": "Contact us for more information about Salymed AI or our Enterprise solutions. Our expert team is ready to help you."
+    },
+    "form": {
+      "title": "Send Message",
+      "subtitle": "We will get back to you as soon as possible",
+      "name": "Full Name",
+      "name_placeholder": "Enter your name and surname",
+      "email": "Email",
+      "email_placeholder": "example@email.com",
+      "phone": "Phone",
+      "phone_placeholder": "+994 XX XXX XX XX",
+      "company": "Company/Clinic",
+      "company_placeholder": "Company name",
+      "message": "Your Message",
+      "message_placeholder": "Write your message here...",
+      "submit": "Send",
+      "success_message": "Your message has been received! We will get back to you soon."
+    },
+    "info": {
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "working_hours": "Working Hours",
+      "social_media": "Social Media"
+    }
   }
 }

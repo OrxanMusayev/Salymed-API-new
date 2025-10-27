@@ -16,7 +16,18 @@
     "submit": "Gönder",
     "close": "Kapat",
     "yes": "Evet",
-    "no": "Hayır"
+    "no": "Hayır",
+    "retry": "Tekrar dene",
+    "or": "veya",
+    "max": "Maks",
+    "select": "Seçin",
+    "update": "Güncelle",
+    "updating": "Güncelleniyor...",
+    "enter_value": "Değer girin",
+    "email_required": "E-posta gereklidir",
+    "email_invalid": "Geçerli e-posta girin",
+    "phone_required": "Telefon gereklidir",
+    "phone_invalid": "Sadece rakamlar"
   },
   "auth": {
     "login": "Giriş Yap",
@@ -55,7 +66,48 @@
     "change_plan": "Planı Değiştir",
     "payment_method": "Ödeme Yöntemi",
     "change_card": "Değiştir",
-    "active_features": "Aktif Özellikler"
+    "active_features": "Aktif Özellikler",
+    "change": "Değiştir",
+    "no_payment_method": "Ödeme yöntemi eklenmemiş",
+    "add_payment_method": "Ödeme Yöntemi Ekle",
+    "next_payment": "Sonraki Ödeme",
+    "billing_history": "Fatura Geçmişi",
+    "download_all": "Tümünü İndir",
+    "date": "Tarih",
+    "plan": "Plan",
+    "amount": "Tutar",
+    "status": "Durum",
+    "invoice": "Fatura",
+    "card_details": "Kart Bilgileri",
+    "expiry": "Son Kullanma",
+    "default": "Varsayılan",
+    "add_new_card": "Yeni Kart Ekle",
+    "card_number": "Kart Numarası",
+    "card_number_placeholder": "1234 5678 9012 3456",
+    "expiry_date": "Son Kullanma Tarihi",
+    "expiry_placeholder": "AA/YY",
+    "cvv": "CVV",
+    "cvv_placeholder": "123",
+    "card_holder": "Kart Sahibi",
+    "card_holder_placeholder": "Ad Soyad",
+    "status_paid": "Ödendi",
+    "status_failed": "Başarısız",
+    "status_pending": "Bekliyor",
+    "status_unknown": "Bilinmeyen",
+    "period_month": "ay",
+    "period_year": "yıl",
+    "month_january": "Ocak",
+    "month_february": "Şubat",
+    "month_march": "Mart",
+    "month_april": "Nisan",
+    "month_may": "Mayıs",
+    "month_june": "Haziran",
+    "month_july": "Temmuz",
+    "month_august": "Ağustos",
+    "month_september": "Eylül",
+    "month_october": "Ekim",
+    "month_november": "Kasım",
+    "month_december": "Aralık"
   },
   "clinic": {
     "title": "Klinik Yönetimi",
@@ -229,5 +281,288 @@
     "updateSuccess": "Veriler başarıyla güncellendi",
     "updateError": "Veriler güncellenirken bir hata oluştu",
     "confirmDelete": "Silmek istediğinizden emin misiniz?"
+  },
+  "dashboard": {
+    "title": "Yönetim Paneli",
+    "refresh": "Yenile",
+    "statistics": "İstatistikler",
+    "total_appointments": "Toplam Randevu",
+    "automatic_appointment": "Otomatik Randevu",
+    "total_patients": "Toplam Hasta",
+    "today_appointments": "Bugünkü Randevular",
+    "weekly_appointments": "Haftalık Randevu",
+    "monthly_revenue": "Aylık Gelir",
+    "active_doctors": "Aktif Doktor",
+    "manual_appointment": "Manuel Randevu",
+    "weekly_trend": "Haftalık Randevu Trendi",
+    "automatic": "Otomatik",
+    "manual": "Manuel",
+    "recent_appointments": "Son Randevular",
+    "status_confirmed": "Onaylandı",
+    "status_pending": "Bekliyor",
+    "status_cancelled": "İptal",
+    "welcome_title": "Hoş Geldiniz!",
+    "welcome_message": "Plan seçerek fonksiyonlardan yararlanmaya başlayabilirsiniz",
+    "subscribe_button": "Abone Ol",
+    "last_30_days_analysis": "Son 30 Günün Analizi",
+    "chart_filter_appointments": "Görüşler",
+    "chart_filter_revenue": "Gelir",
+    "chart_filter_patients": "Hastalar",
+    "view_all": "Tümünü Gör",
+    "calendar": "Takvim",
+    "weekday_monday": "Pts",
+    "weekday_tuesday": "Sal",
+    "weekday_wednesday": "Çar",
+    "weekday_thursday": "Per",
+    "weekday_friday": "Cum",
+    "weekday_saturday": "Cts",
+    "weekday_sunday": "Paz"
+  },
+  "automation": {
+    "whatsapp_setup": {
+      "title": "Klinik WhatsApp Kurulumu",
+      "use_existing": "Mevcut numarayı kullan",
+      "add_new": "Yeni WhatsApp numarası ekle",
+      "phone_placeholder": "Telefon numarası",
+      "verifying": "Doğrulanıyor...",
+      "verify_button": "WhatsApp'ı Doğrula"
+    },
+    "status": {
+      "connected": "Bağlandı",
+      "verifying": "Doğrulanıyor",
+      "not_connected": "Bağlanmadı"
+    },
+    "doctor_management": {
+      "title": "Doktor WhatsApp Yönetimi",
+      "add_all": "Tümünü ekle",
+      "search_placeholder": "Doktor ara...",
+      "phone_placeholder": "Telefon numarası",
+      "connect": "Bağla",
+      "disconnect": "İptal et"
+    },
+    "features": {
+      "title": "Otomasyon Özellikleri",
+      "appointment_confirmations": {
+        "title": "Randevu Onayları",
+        "description": "Otomatik randevu onay mesajları"
+      },
+      "reminder_24h": {
+        "title": "24 Saat Hatırlatma",
+        "description": "Randevudan 24 saat önce hatırlatma"
+      },
+      "reminder_1h": {
+        "title": "1 Saat Hatırlatma",
+        "description": "Randevudan 1 saat önce hatırlatma"
+      },
+      "rescheduling": {
+        "title": "Yeniden Planlama Talepleri",
+        "description": "Otomatik yeniden planlama teklifi"
+      },
+      "noshow_followup": {
+        "title": "Gelmeyenlere Takip",
+        "description": "Randevuya gelmeyen hastalara mesaj"
+      },
+      "welcome_messages": {
+        "title": "Hoş Geldiniz Mesajları",
+        "description": "Yeni hastalar için karşılama mesajı"
+      },
+      "availability_updates": {
+        "title": "Müsaitlik Güncellemeleri",
+        "description": "Doktor müsaitlik değişikliklerini bildir"
+      }
+    },
+    "integration": {
+      "title": "Web Sitesi Entegrasyonu",
+      "active": "Aktif",
+      "inactive": "Pasif",
+      "enable_text": "Web sitesi rezervasyon sistemiyle entegrasyonu etkinleştir",
+      "api_key": "API Anahtarı",
+      "integration_code": "Entegrasyon Kodu",
+      "copy_code": "Kodu Kopyala",
+      "documentation": "Dokümantasyon",
+      "test": "Test Et"
+    },
+    "settings": {
+      "title": "Genel Ayarlar",
+      "business_hours": "Çalışma Saatleri",
+      "message_language": "Mesaj Dili"
+    },
+    "alerts": {
+      "phone_required": "Önce telefon numarası girin",
+      "test_message_sent": "Test mesajı gönderildi",
+      "api_key_copied": "API anahtarı kopyalandı!",
+      "integration_code_copied": "Entegrasyon kodu kopyalandı!",
+      "downloading_docs": "Dokümantasyon indiriliyor...",
+      "testing_integration": "Entegrasyon test ediliyor...",
+      "automation_started": "Otomasyon başlatıldı!",
+      "complete_requirements": "Tüm gereksinimleri tamamlayın!",
+      "configuration_saved": "Yapılandırma kaydedildi!"
+    },
+    "modal": {
+      "title": "API Entegrasyon Dokümantasyonu",
+      "widget_title": "1. Rezervasyon Widget'ı",
+      "api_endpoints_title": "2. REST API Endpoints",
+      "endpoint_get": "Tüm randevuları al",
+      "endpoint_post": "Yeni randevu oluştur",
+      "endpoint_put": "Randevuyu güncelle",
+      "webhook_title": "3. Webhook Olayları",
+      "webhook_created": "Yeni randevu oluşturuldu",
+      "webhook_updated": "Randevu güncellendi",
+      "webhook_cancelled": "Randevu iptal edildi",
+      "download_pdf": "PDF İndir"
+    }
+  },
+  "chatbot": {
+    "header": {
+      "title": "Chatbot Operatörü",
+      "description": "Klinik WhatsApp numarasına yazan hastalar için otomatik yanıt sistemi",
+      "test_button": "Test Et",
+      "save_button": "Kaydet"
+    },
+    "basic_settings": {
+      "title": "Temel Ayarlar",
+      "chatbot_active": "Chatbot Aktif",
+      "response_delay": "Yanıt Gecikmesi (saniye)",
+      "language": "Dil"
+    },
+    "working_hours": {
+      "title": "Çalışma Saatleri",
+      "enable_restriction": "Çalışma Saatleri Kısıtlaması",
+      "start_time": "Başlangıç Saati",
+      "end_time": "Bitiş Saati"
+    },
+    "auto_responses": {
+      "title": "Otomatik Yanıt Türleri",
+      "keywords": "Anahtar kelimeler",
+      "response": "Yanıt"
+    },
+    "templates": {
+      "title": "Yanıt Şablonları",
+      "new_template": "Yeni Şablon",
+      "keyword": "Anahtar Kelime",
+      "keyword_placeholder": "örn: merhaba, randevu",
+      "category": "Kategori",
+      "category_greeting": "Selamlama",
+      "category_appointment": "Randevu",
+      "category_pricing": "Fiyat",
+      "category_info": "Bilgi",
+      "response_text": "Yanıt Metni",
+      "response_placeholder": "Yanıt metnini girin...",
+      "save": "Kaydet",
+      "cancel": "İptal",
+      "edit": "Düzenle",
+      "delete": "Sil"
+    }
+  },
+  "home": {
+    "hero": {
+      "title_part1": "Sağlık Yönetimi",
+      "title_part2": "Yeniden Tanımlanıyor",
+      "description": "Modern ve güvenli sağlık yönetim sistemi ile kliniklerinizi daha verimli şekilde yönetin. Hasta takibinden randevu planlamasına kadar tüm süreçlerinizi dijitalleştirin.",
+      "start_now": "Hemen Başla",
+      "learn_more": "Detaylı Bilgi"
+    },
+    "stats": {
+      "active_patients": "Aktif Hasta",
+      "today_appointments": "Bugünkü Randevular"
+    },
+    "features": {
+      "title": "Özellikler",
+      "subtitle": "Sağlık yönetimi için ihtiyacınız olan her şey",
+      "doctor_management": {
+        "title": "Doktor Yönetimi",
+        "description": "Doktorlarınızı, uzmanlık alanlarını ve çalışma saatlerini kolayca yönetin."
+      },
+      "appointment_system": {
+        "title": "Randevu Sistemi",
+        "description": "Otomatik randevu planlama ve hasta bildirimleri ile verimli randevu yönetimi."
+      },
+      "analytics": {
+        "title": "Analitik Raporlar",
+        "description": "Detaylı raporlar ve analizlerle kuruluşunuzun performansını izleyin."
+      },
+      "security": {
+        "title": "Güvenli Sistem",
+        "description": "Uçtan uca şifreleme ve güvenlik protokolleri ile hasta verilerinizi koruyun."
+      },
+      "mobile_friendly": {
+        "title": "Mobil Uyumlu",
+        "description": "Her yerden erişim sağlayın. Mobil cihazlar için optimize edilmiş arayüz."
+      },
+      "support": {
+        "title": "7/24 Destek",
+        "description": "Uzman ekibimiz her zaman yanınızda. Kesintisiz teknik destek hizmeti."
+      }
+    },
+    "cta": {
+      "title": "Hemen Başlayın",
+      "description": "Sağlık yönetiminde yeni bir dönem başlıyor. Şimdi katılın ve farkı yaşayın.",
+      "button": "Ücretsiz Deneyin"
+    },
+    "footer": {
+      "brand_description": "Sağlık yönetiminde güvenilir çözümünüz",
+      "product": "Ürün",
+      "features": "Özellikler",
+      "pricing": "Fiyatlandırma",
+      "security": "Güvenlik",
+      "support": "Destek",
+      "help_center": "Yardım Merkezi",
+      "contact": "İletişim",
+      "api_docs": "API Dökümanları",
+      "company": "Şirket",
+      "about": "Hakkımızda",
+      "blog": "Blog",
+      "careers": "Kariyer",
+      "copyright": "© 2024 Salymed. Tüm hakları saklıdır."
+    }
+  },
+  "pricing": {
+    "header": {
+      "title": "Klinikler için 7/24 Çalışan Yapay Zeka Asistanı",
+      "description": "İhtiyacınıza en uygun planı seçin ve kliniğinizi dijital dönüşümle güçlendirin"
+    },
+    "period": {
+      "month": "ay",
+      "year": "yıl",
+      "week": "hafta"
+    },
+    "plan": {
+      "button": "İlk 1 Ay Ücretsiz Başla"
+    },
+    "error": {
+      "retry": "Tekrar Dene"
+    },
+    "faq": {
+      "title": "Sık Sorulan Sorular"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Bizimle İletişime Geçin",
+      "description": "Salymed AI hakkında daha fazla bilgi almak veya Enterprise çözümlerimiz için bizimle iletişime geçin. Uzman ekibimiz size yardımcı olmaya hazır."
+    },
+    "form": {
+      "title": "Mesaj Gönderin",
+      "subtitle": "Size en kısa sürede geri dönüş yapacağız",
+      "name": "Ad Soyad",
+      "name_placeholder": "Adınızı ve soyadınızı girin",
+      "email": "E-posta",
+      "email_placeholder": "ornek@email.com",
+      "phone": "Telefon",
+      "phone_placeholder": "+994 XX XXX XX XX",
+      "company": "Şirket/Klinik",
+      "company_placeholder": "Şirket adı",
+      "message": "Mesajınız",
+      "message_placeholder": "Mesajınızı buraya yazın...",
+      "submit": "Gönder",
+      "success_message": "Mesajınız alındı! En kısa sürede size geri dönüş yapacağız."
+    },
+    "info": {
+      "email": "E-posta",
+      "phone": "Telefon",
+      "address": "Adres",
+      "working_hours": "Çalışma Saatleri",
+      "social_media": "Sosyal Medya"
+    }
   }
 }

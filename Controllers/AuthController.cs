@@ -129,6 +129,7 @@ namespace backend.Controllers
                     LastName = adminUser.LastName,
                     ClinicName = clinic.Name,
                     Role = adminUser.Role,
+                    PreferredLanguage = adminUser.PreferredLanguage,
                     Token = token,
                     Message = "Clinic registration successful"
                 });
@@ -179,6 +180,7 @@ namespace backend.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 Role = user.Role,
+                PreferredLanguage = user.PreferredLanguage,
                 ClinicId = clinicId,
                 ClinicName = clinicName,
                 Token = token
@@ -295,6 +297,7 @@ namespace backend.Controllers
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
+        public string PreferredLanguage { get; set; } = "az";
         public Guid? ClinicId { get; set; }
         public string? ClinicName { get; set; }
         public string Token { get; set; } = string.Empty;
@@ -336,6 +339,7 @@ namespace backend.Controllers
         public string LastName { get; set; } = string.Empty;
         public string ClinicName { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
+        public string PreferredLanguage { get; set; } = "az";
         public string Token { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
     }

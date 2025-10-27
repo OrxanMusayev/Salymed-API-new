@@ -56,6 +56,7 @@ namespace backend.Controllers
                 PhoneNumber = user.PhoneNumber,
                 PhoneCountryCode = user.PhoneCountryCode,
                 Role = user.Role,
+                PreferredLanguage = user.PreferredLanguage,
                 IsActive = user.IsActive,
                 ClinicId = clinicId,
                 ClinicName = clinicName,
@@ -95,6 +96,13 @@ namespace backend.Controllers
             user.Email = updateDto.Email;
             user.PhoneNumber = updateDto.PhoneNumber;
             user.PhoneCountryCode = updateDto.PhoneCountryCode;
+
+            // Update preferred language if provided
+            if (!string.IsNullOrWhiteSpace(updateDto.PreferredLanguage))
+            {
+                user.PreferredLanguage = updateDto.PreferredLanguage;
+            }
+
             user.UpdatedAt = DateTime.UtcNow;
 
             try
@@ -136,6 +144,7 @@ namespace backend.Controllers
                 PhoneNumber = user.PhoneNumber,
                 PhoneCountryCode = user.PhoneCountryCode,
                 Role = user.Role,
+                PreferredLanguage = user.PreferredLanguage,
                 IsActive = user.IsActive,
                 ClinicId = clinicId,
                 ClinicName = clinicName,
@@ -144,6 +153,33 @@ namespace backend.Controllers
             };
 
             return Ok(response);
+        }
+
+        // POST: api/users/{id}/change-language
+        [HttpPost("{id}/change-language")]
+        public async Task<ActionResult> ChangeLanguage(Guid id, ChangeLanguageRequestDto changeLanguageDto)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound(new { message = "İstifadəçi tapılmadı" });
+            }
+
+            // Validate language code
+            var validLanguages = new[] { "az", "en", "tr" };
+            if (!validLanguages.Contains(changeLanguageDto.Language.ToLower()))
+            {
+                return BadRequest(new { message = "Etibarsız dil kodu. Yalnız 'az', 'en', və ya 'tr' istifadə edilə bilər." });
+            }
+
+            // Update preferred language
+            user.PreferredLanguage = changeLanguageDto.Language.ToLower();
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Dil tercihi uğurla yeniləndi", language = user.PreferredLanguage });
         }
 
         // POST: api/users/{id}/change-password

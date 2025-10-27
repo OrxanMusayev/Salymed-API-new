@@ -9,6 +9,8 @@ public partial class ClinicType
 
     public string Name { get; set; } = null!;
 
+    public string? TranslationKey { get; set; }
+
     public string? Description { get; set; }
 
     public bool IsActive { get; set; }

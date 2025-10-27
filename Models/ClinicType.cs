@@ -11,6 +11,9 @@ namespace backend.Models
         [StringLength(100)]
         public string Name { get; set; } = string.Empty;
 
+        [StringLength(100)]
+        public string? TranslationKey { get; set; }
+
         [StringLength(500)]
         public string? Description { get; set; }
 

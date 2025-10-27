@@ -9,6 +9,7 @@ namespace backend.DTOs
         public string? PhoneNumber { get; set; }
         public string? PhoneCountryCode { get; set; }
         public string Role { get; set; } = string.Empty;
+        public string PreferredLanguage { get; set; } = "az";
         public bool IsActive { get; set; }
         public Guid? ClinicId { get; set; }
         public string? ClinicName { get; set; }
