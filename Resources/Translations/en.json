@@ -158,6 +158,14 @@
     "retry": "Retry",
     "error_loading": "Failed to load clinic information"
   },
+  "navbar": {
+    "home": "Home",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "brand": "Salymed AI"
+  },
   "sidebar": {
     "dashboard": "Dashboard",
     "automation": "Automation",

@@ -159,6 +159,14 @@
     "retry": "Tekrar dene",
     "error_loading": "Klinik bilgileri yüklenemedi"
   },
+  "navbar": {
+    "home": "Ana Sayfa",
+    "pricing": "Fiyatlar",
+    "contact": "İletişim",
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "brand": "Salymed AI"
+  },
   "sidebar": {
     "dashboard": "Gösterge Paneli",
     "automation": "Otomasyon",
